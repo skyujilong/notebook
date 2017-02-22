@@ -1,3 +1,5 @@
 # notebook
 记录笔记
 ## 地址列表
+1. [atom相关配置与常用类库](https://github.com/skyujilong/notebook/blob/master/docs/atom.md)
+1. [h5开发碰到的坑爹事](https://github.com/skyujilong/notebook/blob/master/docs/h5.md)

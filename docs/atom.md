@@ -1,4 +1,5 @@
 # ATOM 编辑器相关随笔
+---
 ## window下，启动apm命令行
 在windows下，有时候可能是不支持apm命令的，那么我们可以将```C:\Users\jilong5\AppData\Local\atom\app-1.14.3\resources\app\apm\bin```这个路径放入到环境变量中，这样apm命令就可以使用了。
 ## 关于atom安装package翻墙的问题
