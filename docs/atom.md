@@ -2,7 +2,7 @@
 ---
 ## window下，启动apm命令行
 在windows下，有时候可能是不支持apm命令的，那么我们可以将```C:\Users\jilong5\AppData\Local\atom\app-1.14.3\resources\app\apm\bin```这个路径放入到环境变量中，这样apm命令就可以使用了。
-## 关于atom安装package翻墙的问题
+## 关于atom安装package翻墙的问题【已废弃】
 apm本质上是在npm的一种封装，自然我们可以采用taobao的镜像去拉取资源内容。
 
 配置如下：
@@ -17,6 +17,14 @@ strict-ssl=false
 ```
 
 这样我们就能采用taobao的镜像去翻墙了。
+
+## 关于atom安装package翻墙设置代理的方式 ##
+由于上面的方式已经被废弃了，不过我们可以采用proxy的方式。
+```
+$ apm config set https-proxy https://127.0.0.1:1080
+$ apm config set http-proxy http://127.0.0.1:1080
+
+```
 
 ## atom安装包
 ```
