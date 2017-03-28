@@ -16,3 +16,5 @@
 
 看如下的例子：
 ![图片](https://github.com/skyujilong/notebook/blob/master/src/server-save-cookie-demo.png)
+
+服务器设置cookie，通过reponse headers中的Set-Cookie字段。如果没有这个，则说明服务器没有设置cookie。上图是通过chrome中的控制台的network看到的结果。
