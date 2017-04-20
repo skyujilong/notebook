@@ -11,5 +11,5 @@ Access-Control-Allow-Origin:*
 ## ie ajax跨域问题解决方案
 可以采用iframe的方式予以解决，具体思路如下：
 1. 在js全局中提供一个函数
-2. 动态创建iframe，并且将你需要传递后台的数据，用form表单的方式提交到，iframe中。
-3. 服务器返回的iframe内容，需要设置document.domain，以及回调1步骤中的全局函数。
+2. 动态创建iframe，并且将你需要传递后台的数据，用form表单(注意，这个form中，有个参数是，告诉服务器B(跨域地址)回调服务器A(非跨域地址))的方式提交到，iframe中。
+3. 由服务器A返回的iframe内容，以及回调1步骤中的全局函数。
