@@ -8,3 +8,4 @@
 1. [html节点插入（字符串）](https://github.com/skyujilong/notebook/blob/master/docs/add-dom.md)
 1. [广告代码部署相关总结](https://github.com/skyujilong/notebook/blob/master/docs/ad.md)
 1. [故障排查-定位cookie丢失](https://github.com/skyujilong/notebook/blob/master/docs/error-cookies.md)
+1. [ie6/7/8/9不支持跨域ajax](https://github.com/skyujilong/notebook/blob/master/docs/cross.md)
