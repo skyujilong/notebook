@@ -9,3 +9,4 @@
 1. [广告代码部署相关总结](https://github.com/skyujilong/notebook/blob/master/docs/ad.md)
 1. [故障排查-定位cookie丢失](https://github.com/skyujilong/notebook/blob/master/docs/error-cookies.md)
 1. [ie6/7/8/9不支持跨域ajax](https://github.com/skyujilong/notebook/blob/master/docs/cross.md)
+1. [如何在npm上面发布一个包](https://github.com/skyujilong/notebook/blob/master/docs/npm-info.md)
