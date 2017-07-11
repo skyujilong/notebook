@@ -54,6 +54,9 @@ $ apm upgrade [升级包的名字]//更新这个包的版本
 ├── minimap-pigments@0.2.2// 增强代码导航添加颜色显示
 ├── pigments@0.39.0// 代码颜色显示
 ├── seti-ui@1.6.1// ui
+├── language-babel
+├── atom-react-autocomplete
+├── autocomplete-modules
 └── todo-show@1.11.0//这玩意忘记了
 
 ```

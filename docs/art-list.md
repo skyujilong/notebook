@@ -5,3 +5,4 @@
 1. [生成器的正确食用方式！！！](http://bg.biedalian.com/2013/12/21/harmony-generator.html)
 1. [生成器类库co分析](http://purplebamboo.github.io/2014/05/24/koa-source-analytics-2/)
 1. [ES7 Async/Await](http://rossboucher.com/await/#/)
+1. [transitionend事件](https://www.15yan.com/story/bYNqBSgbGKv/)
