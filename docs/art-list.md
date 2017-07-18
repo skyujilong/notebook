@@ -6,3 +6,6 @@
 1. [生成器类库co分析](http://purplebamboo.github.io/2014/05/24/koa-source-analytics-2/)
 1. [ES7 Async/Await](http://rossboucher.com/await/#/)
 1. [transitionend事件](https://www.15yan.com/story/bYNqBSgbGKv/)
+1. [贝塞尔曲线](http://www.jianshu.com/p/55099e3a2899)
+1. [贝塞尔曲线类库，用于计算轨迹](https://github.com/fontello/cubic2quad)
+1. [贝塞尔曲线类库，在0与1之间渐变,用户动画渐变](https://github.com/skyujilong/bezier-easing)
