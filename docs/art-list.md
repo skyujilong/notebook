@@ -9,3 +9,4 @@
 1. [贝塞尔曲线](http://www.jianshu.com/p/55099e3a2899)
 1. [贝塞尔曲线类库，用于计算轨迹](https://github.com/fontello/cubic2quad)
 1. [贝塞尔曲线类库，在0与1之间渐变,用户动画渐变](https://github.com/skyujilong/bezier-easing)
+1. [async function](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/async_function)
