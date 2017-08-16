@@ -12,3 +12,4 @@
 1. [async function](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/async_function)
 1. [how to proxy request in node.js](https://www.vanamco.com/2014/06/24/proxy-requests-in-node-js/)
 1. [tcp/ip,http,socket的区别](http://lib.csdn.net/article/computernetworks/20534)
+1. [promise 好文](https://zhuanlan.zhihu.com/p/25178630)
