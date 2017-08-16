@@ -11,3 +11,4 @@
 1. [ie6/7/8/9不支持跨域ajax](https://github.com/skyujilong/notebook/blob/master/docs/cross.md)
 1. [现代浏览器跨域](https://github.com/skyujilong/notebook/blob/master/docs/new-cross.md)
 1. [如何在npm上面发布一个包](https://github.com/skyujilong/notebook/blob/master/docs/npm-info.md)
+1. [promise相关的一些思考](https://github.com/skyujilong/notebook/blob/master/docs/promise.md)
