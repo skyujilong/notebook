@@ -13,6 +13,7 @@ promise随着生成器函数以及async await的普及是越来越重要了。**
 **状态的迁移，只能单向的pending -> fulfilled 或者 pending -> rejected**
 
 因此：可以推论，每次状态的变化都会生成一个新的promise对象。
+
 eg:
 ```JavaScript
 
@@ -54,7 +55,8 @@ console.log(obj1 === obj2);
 ```
 **注：因为状态是不可更改的，因此promise的链式调用，每次都是返回一个新的promise对象**
 ### Promise的值穿透
-因为可以Promise.then(f1).then(f2)这样同一个promise可以调用then多次，因此会有值穿透发生。       
+因为可以Promise.then(f1).then(f2)这样同一个promise可以调用then多次，因此会有值穿透发生。
+       
 eg:
 ```JavaScript
 let demo = new Promise((resovle,reject) => {
@@ -71,6 +73,9 @@ demo.then(obj).then((val) => {
 
 ### Promise的内存泄漏
 **原因在于每次链式链接一个promise都会生成一个新的promise**
+
+[iss地址](https://github.com/nodejs/node/issues/6673)
+
 eg:
 ```JavaScript
 
