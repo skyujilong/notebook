@@ -68,3 +68,49 @@ demo.then(obj).then((val) => {
 });
 //输出2,在第二个then中输出的
 ```
+
+### Promise的内存泄漏
+**原因在于每次链式链接一个promise都会生成一个新的promise**
+eg:
+```JavaScript
+
+var count = 1000;
+
+function run(){
+    return new Promise((resolve,reject) => {
+        setTimeout(function(){
+            count --;
+            if(count < 0){
+                reject();
+            }else{
+                resolve(run());//注意这行代码，这里回调run方法产生的promise会与之前的promise对象组成一个链式的promise，这样会几何性质的新增promise对象
+            }
+        },200);
+    });
+}
+
+run().then(function(){
+    console.log(count);
+},function(){
+    console.log('done.........');
+});
+
+```
+**解决方案**
+```JavaScript
+
+function run(){
+    //不要return 这个promise
+    new Promise((resolve,reject) => {
+        setTimeout(function(){
+            count --;
+            if(count < 0){
+                reject();
+            }else{
+                resolve(run());//注意这行代码，这里回调run方法产生的promise会与之前的promise对象组成一个链式的promise，这样会几何性质的新增promise对象
+            }
+        },200);
+    });
+}
+
+```
