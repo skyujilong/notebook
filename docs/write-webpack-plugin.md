@@ -131,4 +131,6 @@ module.exports = MyPlugin;
     };
     module.exports = TinyPNGPlugin;
 ```
-** 详细的内容，欢迎查看我的webpack图片压缩组件，tinypng-webpack-plugin。[项目地址](https://www.npmjs.com/package/tinypng-webpack-plugin) **
+** 详细的内容，欢迎查看我的webpack图片压缩组件，tinypng-webpack-plugin。 **
+
+[项目地址](https://www.npmjs.com/package/tinypng-webpack-plugin)
