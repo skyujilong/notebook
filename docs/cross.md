@@ -17,19 +17,20 @@
 
 ![流程图](https://github.com/skyujilong/notebook/blob/master/src/cross-server.jpg)
 
-## IE ajax跨域的问题描述(目前测试 没有发生下列问题，后续关注一下)
+**注：这中间可能会碰到几个有问题的地方，比如说后端服务的session的问题等等，还有SEO相关问题。我这里提出来的这套方案，仅仅适用于，向跨域服务器提交内容，与获得响应（callback function），具体这套跨域方案的应用还需要各位应对自己的需求，去判断是否使用这套东西。比如你们是单独服务处理账户，那么恭喜你们，在用这套方案的时候会简单的多，如果是基于session的确实会有一些问题，最后感谢群友Carson提出来的这些问题。**
+
+```javascript
+//TODO 后续提供一套简单的代码来完成这套方案
+
+
+```
+
+## Ajax跨域方案
+1. 服务器端设置Access-Control-Allow-Origin
+2. 如果需要带有cookie，需要服务器设置```Access-Control-Allow-Credentials: true```，同时，请求ajax需要在open与send方法之间设置```xhr.withCredentials = true```
+
+
+## IE Ajax跨域的问题描述(目前测试 没有发生下列问题，后续关注一下)
 ie的问题是在于低版本，9以及以下版本，在服务器端返回的respones
 Access-Control-Allow-Origin:*
 或者将*换成具体的域名，默认是显示你有跨域问题的，就是通信失败。
-## ie ajax跨域问题解决方案
-可以采用iframe的方式予以解决，具体思路如下：
-1. 在js全局中提供一个函数
-2. 动态创建iframe，并且将你需要传递后台的数据，用form表单(注意，这个form中，有个参数是，告诉服务器B(跨域地址)回调服务器A(非跨域地址))的方式提交到，iframe中。
-3. 由服务器A返回的iframe内容，以及回调1步骤中的全局函数。
-
-## ajax跨域方案
-1. 服务器端设置Access-Control-Allow-Origin
-
-## ajax（带cookie）跨域
-1. 服务器端设置Access-Control-Allow-Credentials: true
-2. 客户端在xhr open方法与 send方法之间设置``` xhr.withCredentials = true; ```
