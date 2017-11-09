@@ -16,3 +16,4 @@
 1. [ios中UIWebView与WKWebView、Javascript与oc交互、Cookie管理好文（一）](http://www.jianshu.com/p/ac45d99cf912)
 1. [ios中UIWebView与WKWebView、Javascript与oc交互、Cookie管理好文（二）](http://www.jianshu.com/p/870dba42ec15)
 1. [ios中UIWebView与WKWebView、Javascript与oc交互、Cookie管理好文（三）](http://www.jianshu.com/p/52668d5b2e68)
+1. [svn命令行添加全部文件，和删除所有不存的在文件](http://www.cnblogs.com/weiweisuhe/p/5692299.html)
