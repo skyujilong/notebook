@@ -18,4 +18,4 @@
 1. [ios中UIWebView与WKWebView、Javascript与oc交互、Cookie管理好文（三）](http://www.jianshu.com/p/52668d5b2e68)
 1. [svn命令行添加全部文件，和删除所有不存的在文件](http://www.cnblogs.com/weiweisuhe/p/5692299.html)
 1. [react-router](https://segmentfault.com/a/1190000006063554)
-1. [react components,element,& instances](https://reactjs.org/blog/2015/12/18/react-components-elements-and-instances.html)
+1. [react components,element,& instances。注：核心思想就是input props output element,element是不可变的，变化就是把原有的数据直接替换掉](https://reactjs.org/blog/2015/12/18/react-components-elements-and-instances.html)
