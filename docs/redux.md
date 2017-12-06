@@ -5,7 +5,7 @@
 // reducers参数星星{key:function,key:function,..}
 // 这个步骤，现去判断你的reducer是否是一个合格的reducer，判断方式为，直接调用你的reducer 传入参数
 // 为undefined,{type:ActionTypes.INIT} 然后判断你的返回值是否是undefined，钥匙undefined则报错。
-//
+
 export default function combineReducers(reducers) {
   const reducerKeys = Object.keys(reducers)
   const finalReducers = {}
@@ -45,7 +45,7 @@ export default function combineReducers(reducers) {
 
 ```javascript
 //闭包中返回的内容
-//该函数，在调用的时候，会将所有的reducer调用一次
+//该函数，在调用的时候，会将所有的reducer调用一次,然后生成一个默认初始化的state
 function combination(state = {}, action) {
     if (shapeAssertionError) {
       throw shapeAssertionError

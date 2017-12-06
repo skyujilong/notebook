@@ -22,3 +22,4 @@
 1. [React Render Callback Pattern|把react组件的children作为function渲染的优点](http://blog.ricardofilipe.com/post/react-callback-render-pattern)
 1. [react面试常见问题收录](https://zhuanlan.zhihu.com/p/24856035)
 1. [react生命周期&redux优化内容](https://foio.github.io/react-redux-performance-boost/)
+1. [虚拟dom的哪些事情](http://foio.github.io/virtual-dom/)

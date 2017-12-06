@@ -204,6 +204,8 @@ export default function finalPropsSelectorFactory(dispatch, {
 
 ## selectorFactory 中的  pureFinalPropsSelectorFactory 方法
 
+*比对，当前的state，与变更的props属性，之后进行属性合并，返回新的对象*
+
 ```javascript
 
 export function pureFinalPropsSelectorFactory(
@@ -429,6 +431,7 @@ export function pureFinalPropsSelectorFactory(
 
                 shouldComponentUpdate() {
                     //这个方法是react组件的方法，在发现props变动的时候会调用这个方法，这里会进行判断selector是否发生了更新。
+                    //shouldComponentUpdate 该方法是react的优化渲染的重点，该方法返回false久不会调用后面的render一系列方法。这里推荐采用浅比较的方式去比对当前的props和store是否与之前的一至 就是（===），这也是为什么react推荐采用immutable去比对，因为这个类库可以快速定位是否是原来的对象。 不推荐采用深层次的比对以及类似JSON.stringify()这种方式进行比对，因为有性能问题，不如让react进行dom的比对操作
                     return this.selector.shouldComponentUpdate
                 }
 

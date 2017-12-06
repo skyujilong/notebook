@@ -14,3 +14,5 @@
 1. [promise相关的一些思考](https://github.com/skyujilong/notebook/blob/master/docs/promise.md)
 1. [如何写一个webpack plugin](https://github.com/skyujilong/notebook/blob/master/docs/write-webpack-plugin.md)
 1. [canvas下载动态图片](https://github.com/skyujilong/notebook/blob/master/docs/canvas-downimg.md)
+1. [redux源码分析](https://github.com/skyujilong/notebook/blob/master/docs/redux.md)
+1. [react-redux源码分析](https://github.com/skyujilong/notebook/blob/master/docs/react-redux.md)
