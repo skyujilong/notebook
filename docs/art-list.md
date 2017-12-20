@@ -23,3 +23,4 @@
 1. [react面试常见问题收录](https://zhuanlan.zhihu.com/p/24856035)
 1. [react生命周期&redux优化内容](https://foio.github.io/react-redux-performance-boost/)
 1. [虚拟dom的哪些事情](http://foio.github.io/virtual-dom/)
+1. [vscode debug](https://segmentfault.com/a/1190000012081882)
