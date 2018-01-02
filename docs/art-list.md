@@ -25,3 +25,4 @@
 1. [虚拟dom的哪些事情](http://foio.github.io/virtual-dom/)
 1. [vscode debug](https://segmentfault.com/a/1190000012081882)
 1. [js内存清理](http://jafeney.com/2016/01/10/2016-01-10-js/)
+1. [react vs vue vs angular](https://medium.com/unicorn-supplies/angular-vs-react-vs-vue-a-2017-comparison-c5c52d620176)
