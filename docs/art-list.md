@@ -29,3 +29,4 @@
 1. [ab压力测试工具](https://www.jianshu.com/p/43d04d8baaf7)
 1. [webpack4 plugins 迁移](https://blog.johnnyreilly.com/2018/01/finding-webpack-4-use-map.html)
 1. [react16版本动画](https://tech.youzan.com/react-animations/)
+1. [vue双向绑定，set get方法劫持介绍](https://segmentfault.com/a/1190000006599500)
