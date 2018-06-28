@@ -25,3 +25,23 @@
 
 ### 答案
 [答案](https://github.com/skyujilong/notebook/blob/master/algorithm/1.html)
+
+
+## 2.给定一个整数数组，判断是否存在重复元素。
+
+给定一个整数数组，判断是否存在重复元素。
+
+如果任何值在数组中出现至少两次，函数返回 true。如果数组中每个元素都不相同，则返回 false。
+
+### eg1
+>输入: [1,2,3,1]
+>输出: true
+
+### eg2
+>输入: [1,2,3,4]
+>输出: false
+
+### 答案
+[答案](https://github.com/skyujilong/notebook/blob/master/algorithm/2.html)
+### 注意
+有时候提前排序后，效果会更好。

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <article>
+        <p>给定一个整数数组，判断是否存在重复元素。</p>
+    </article>
+    <script>
+        /**
+         * @param {number[]} nums
+         * @return {boolean}
+         */
+        var containsDuplicate = function (nums) {
+            nums = nums.sort((a, b) => a - b);
+            var a = false;
+            for (i = 0; i < nums.length; i++) {
+                if (nums[i] == nums[i + 1]) {
+                    a = true;
+                }
+            }
+            return a;
+        };
+    </script>
+    <script>
+        /**
+         * @param {number[]} nums
+         * @return {boolean}
+         */
+        var containsDuplicate = function (nums) {
+            let flag = false;
+            for (let i = 0; i < nums.length; i++) {
+                if (flag) {
+                    break;
+                }
+                for (let j = i + 1; j < nums.length; j++) {
+                    if (nums[i] === nums[j]) {
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+            return flag;
+        };
+    </script>
+</body>
+
+</html>
