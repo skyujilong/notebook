@@ -19,3 +19,5 @@
      注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。
      因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。
 
+### 答案
+[答案](https://github.com/skyujilong/notebook/blob/master/algorithm/1.html)
