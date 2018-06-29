@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <article>
+        <p>给定一个非空整数数组，除了某个元素只出现一次以外，其余每个元素均出现两次。找出那个只出现了一次的元素。</p>
+        <p>说明： 你的算法应该具有线性时间复杂度。 你可以不使用额外空间来实现吗？</p>
+    </article>
+    <button onclick="singleNumber([4,1,2,1,2])">click me!!</button>
+    <script>
+        /** * @param {number[]} nums * @return {number} */
+        var singleNumber = function (nums) {
+            var map = {};
+            for (let i = 0; i < nums.length; i++) {
+                if (map[nums[i]] !== 0 && !map[nums[i]]) {
+                    map[nums[i]] = 1;
+                } else {
+                    map[nums[i]] += 1;
+                }
+            }
+            for (let key in map) {
+                if(map[key] === 1){
+                    return key;
+                }
+            }
+        };
+    </script>
+    <script>
+        //非额外空间实现。
+    var singleNumber = function (nums) {
+        let result = 0;
+        for(let val of nums){
+            // ^ 异或，1 ^ 1 异或就是两个数的二进制形式，按位对比，相同取0，不同取一
+            // 思路， 查找其中唯一的一个不同的值，其他值都有重复的（出现两次）， 异或一边，重复的为0，剩下的值，就是唯一的那个值
+            result ^= val;
+        }
+        return result;
+    }
+    </script>
+    <script>
+    </script>
+</body>
+
+</html>
