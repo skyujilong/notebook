@@ -12,7 +12,7 @@
     <article>
         <p>给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。</p>
     </article>
-    <button onclick="rotate([1,2,3,4,5,6,7],3)">click me!</button>
+    <button onclick="rotate([1],0)">click me!</button>
     <script>
         /**
          * @param {number[]} nums
@@ -22,7 +22,7 @@
         var rotate = function (nums, k) {
             let offset = k % nums.length;
             if (offset === 0) {
-                return nums;
+                return;
             }
             for (let i = 0; i < offset; i++) {
                 let val = nums.pop();
@@ -31,6 +31,15 @@
             }
         };
         //思路是从尾部开始 向前添加
+    </script>
+
+    <script>
+        // 效率更高 
+        var rotate = function (nums, k) {
+            var len = nums.length;
+            var ary = nums.splice(len - k, k);
+            nums.unshift(...ary);
+        }
     </script>
 </body>
 
