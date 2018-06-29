@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <article>
+        <p>给定两个数组，写一个方法来计算它们的交集。</p>
+        <p>
+            <b>例如: </b>
+
+        </p>
+        <p>
+            给定 nums1 = [1, 2, 2, 1], nums2 = [2, 2], 返回 [2, 2].
+        </p>
+        <p>
+            <b>注意：</b> 输出结果中每个元素出现的次数，应与元素在两个数组中出现的次数一致。 我们可以不考虑输出结果的顺序。
+        </p>
+    </article>
+    <button onclick="intersect([1,2,3,4,1,2,3,4],[2,3,2,3])">click me!!</button>
+    <script>
+        /** * @param {number[]} nums1 * @param {number[]} nums2 * @return {number[]} */
+        var intersect = function (nums1, nums2) {
+            let mapNum1 = {},
+                mapNum2 = {},
+                result = [];
+            for (let i = 0; i < nums1.length; i++) {
+                if (mapNum1[nums1[i]] !== 0 && !mapNum1[nums1[i]]) {
+                    mapNum1[nums1[i]] = 1;
+                } else {
+                    mapNum1[nums1[i]] += 1;
+                }
+            }
+            for (let j = 0; j < nums2.length; j++) {
+                if (mapNum2[nums2[j]] !== 0 && !mapNum2[nums2[j]]) {
+                    mapNum2[nums2[j]] = 1;
+                } else {
+                    mapNum2[nums2[j]] += 1;
+                }
+            }
+            for (let key in mapNum1) {
+
+                if(mapNum2[key]){
+                    let len = mapNum2[key] > mapNum1[key] ? mapNum1[key] : mapNum2[key];
+                    for(let i = 0; i<len; i++){
+                        result.push(key - 0);
+                    }
+                }
+            }
+            return result;
+        };
+    </script>
+</body>
+
+</html>
