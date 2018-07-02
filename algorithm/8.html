@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <article>
+        <p></p>
+    </article>
+    <script>
+        function ListNode(val) {
+            this.val = val;
+            this.next = null;
+        }
+        let tmp = null,head;
+        for(let i = 1; i<= 3; i ++ ){
+            if(i === 1){
+                head = tmp = new ListNode(i);
+            }else{
+                tmp.next = new ListNode(i);
+                tmp = tmp.next;
+            }
+        }
+        // console.log(head);
+        var removeNthFromEnd = function (head, n) {
+            //双指针方式。
+            let tmp = head; //慢指针
+            let go = head;
+            let deleteHead = true;
+            let len = 0,deleteIndex = n;
+            if(n == 1 && !head.next){
+                //特殊处理
+                return null;
+            }
+
+            if(n == 1){
+                //删除尾部特殊
+                while(go){
+                    if(n<0){
+                        tmp = tmp.next;
+                    }
+                    n--;
+                    go = go.next;
+                }
+                tmp.next = null;
+                return head;
+            }
+
+            while (go) {
+                len++;//删除头指针，特殊标记一下。 这里的tmp取的都是链表数据中要删除的前一个
+                if(n < 0){
+                    tmp = tmp.next;
+                }
+                n--;
+                //间距i
+                go = go.next;
+            }
+            if(len == deleteIndex){
+                //头部特殊处理
+                let tmp1 = head;
+                head = head.next;
+                tmp1.next = null;
+                tmp1 = null;
+            }else{
+                let tmp1 = tmp.next.next;
+                tmp.next = null;
+                tmp.next = tmp1;
+            }
+            return head;
+        };
+        // debugger;
+        console.log(removeNthFromEnd(head,3));
+    </script>
+</body>
+
+</html>
