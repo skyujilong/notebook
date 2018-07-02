@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <article>
+        <p>
+            判断一个 9x9 的数独是否有效。只需要根据以下规则，验证已经填入的数字是否有效即可。
+        </p>
+        <p>
+            数字 1-9 在每一行只能出现一次。 数字 1-9 在每一列只能出现一次。 数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。
+        </p>
+    </article>
+
+    <button onclick="click()">click me!</button>
+    <script>
+        /** * @param {character[][]} board * @return {boolean} */
+        var isValidSudoku = function (board) {
+            let isSudo = true,
+                map = {},
+                _list = [];
+            for (let i = 0; i < board.length; i++) { //横排 
+                let result = hasSame(board[i]);
+                if (result) {
+                    return false;
+                }
+                //方块三列
+                let mapKey = 0;
+                for (let j = 0; j < board[i].length; j++) {
+                    if (j % 3 == 0) {
+                        mapKey++;
+                        if (!map[mapKey]) {
+                            map[mapKey] = [];
+                        }
+                    }
+                    map[mapKey].push(board[i][j]);
+                }
+                if (i % 3 === 2) {
+                    for (let key in map) {
+                        if (hasSame(map[key])) { //还原 
+                            return false;
+                        }
+                        map[key] = [];
+                    }
+                }
+                //方块 三列完毕。 //纵向 
+                for (let z = 0; z < board[i].length; z++) {
+                    if (!_list[z]) {
+                        _list[z] = [];
+                    }
+                    _list[z].push(board[i][z]);
+                }
+            }
+            for (let _l of _list) {
+                if (hasSame(_l)) {
+                    return false;
+                }
+            }
+            return isSudo;
+        };
+
+        function hasSame(list) {
+            let map = {};
+            for (let i = 0; i < list.length; i++) {
+                if (list[i] !== '.') {
+                    if (map[list[i]]) {
+                        return true;
+                    } else {
+                        map[list[i]] = 1;
+                    }
+                }
+            }
+            return false;
+        }
+    </script>
+    <script>
+        click();
+
+        function click() {
+            debugger;
+            // let result = isValidSudoku([
+            //     ["8","3",".",".","7",".",".",".","."],
+            //     ["6",".",".","1","9","5",".",".","."],
+            //     [".","9","8",".",".",".",".","6","."],
+            //     ["8",".",".",".","6",".",".",".","3"],
+            //     ["4",".",".","8",".","3",".",".","1"],
+            //     ["7",".",".",".","2",".",".",".","6"],
+            //     [".","6",".",".",".",".","2","8","."],
+            //     [".",".",".","4","1","9",".",".","5"],
+            //     [".",".",".",".","8",".",".","7","9"]]);
+            let result = isValidSudoku([
+                ["5", "3", ".", ".", "7", ".", ".", ".", "."],
+                ["6", ".", ".", "1", "9", "5", ".", ".", "."],
+                [".", "9", "8", ".", ".", ".", ".", "6", "."],
+                ["8", ".", ".", ".", "6", ".", ".", ".", "3"],
+                ["4", ".", ".", "8", ".", "3", ".", ".", "1"],
+                ["7", ".", ".", ".", "2", ".", ".", ".", "6"],
+                [".", "6", ".", ".", ".", ".", "2", "8", "."],
+                [".", ".", ".", "4", "1", "9", ".", ".", "5"],
+                [".", ".", ".", ".", "8", ".", ".", "7", "9"]
+            ]);
+            console.log(result);
+        }
+    </script>
+    <!-- 速度更快的方法 -->
+    <script>
+        var isValidSudoku = function (board) {
+            for (var i = 0; i < 9; i++) {
+                //字典 ， 默认都没有值。
+                var col = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                for (var j = 0; j < 9; j++) {
+                    if (board[j][i] == '.') continue;
+                    if (col[board[j][i]] == 1) {
+                        return false;
+                    } else {
+                        //对应的数字进行赋值
+                        col[board[j][i]] = 1;
+                    }
+                }
+                
+                var row = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                for (j = 0; j < 9; j++) {
+                    if (board[i][j] == '.') continue;
+                    if (row[board[i][j]] == 1) {
+                        return false;
+                    } else {
+                        row[board[i][j]] = 1;
+                    }
+                }
+                for (j = 0; j < 9; j++) {
+                    if (i % 3 == 0 && j % 3 == 0) {
+                        //每 3个数字进行处理一次。
+                        var arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                        for (var x = 0; x < 3; x++) {
+                            for (var y = 0; y < 3; y++) {
+                                if (x + i >= 0 && x + i < 9) {
+                                    if (j + y >= 0 && y + j < 9) {
+                                        if (board[i + x][j + y] == '.') continue;
+                                        if (arr[board[i + x][j + y]] == 1) {
+                                            return false;
+                                        } else {
+                                            arr[board[i + x][j + y]] = 1;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        };
+    </script>
+
+</body>
+
+</html>
