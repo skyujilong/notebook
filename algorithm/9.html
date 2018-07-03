@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <article>
+        <p></p>
+    </article>
+    <script>
+        function ListNode(val) {
+            this.val = val;
+            this.next = null;
+        }
+
+        var mergeTwoLists = function (l1, l2) {
+            //index1 index2双指针 result 新链表的指针
+            let index1 = l1,
+                index2 = l2,
+                headResult,
+                result;
+            if(!l1){
+                return l2;
+            }
+            if(!l2){
+                return l1;
+            }
+
+            //开始 选中头指针
+            if (l1.val < l2.val) {
+                // headResult = result = new ListNode(l1.val);
+                headResult = result = index1;
+                index1 = index1.next;
+            } else {
+                // headResult = result = new ListNode(l2.val);
+                headResult = result = index2;
+                index2 = index2.next;
+            }
+
+            while (true) {
+                if (!index1) {
+                    result.next = index2;
+                    break;
+                }
+                if (!index2) {
+                    result.next = index1;
+                    break;
+                }
+
+                if (index1.val < index2.val) {
+                    // result.next = new ListNode(index1.val);
+                    result.next = index1;
+                    result = result.next;//指针下移动
+                    index1 = index1.next;
+                } else {
+                    // result.next = new ListNode(index2.val);
+                    result.next = index2;
+                    result = result.next;//指针下移动
+                    index2 = index2.next;
+                }
+            }
+            return headResult;
+        };
+
+
+        let test1,test2;
+        test1 = new ListNode(1);
+        test1.next = new ListNode(2);
+        test1.next.next = new ListNode(4);
+
+        test2 = new ListNode(1);
+        test2.next = new ListNode(3);
+        test2.next.next = new ListNode(4);
+
+        let r = mergeTwoLists(test1,test2);
+        console.log(r);
+    </script>
+
+    <script>
+        // 更好的实现
+        /**
+            * @param {ListNode} l1
+            * @param {ListNode} l2
+            * @return {ListNode}
+            */
+            var mergeTwoLists = function(l1, l2) {
+                //假设建立了一个空的头指针。
+                var mergedHead = {val: -1, next: null}, crt = mergedHead;
+                while(l1 && l2){
+                    if(l1.val > l2.val){
+                        crt.next = l2;
+                        l2 = l2.next;
+                    }else{
+                        crt.next = l1;
+                        l1 = l1.next;
+                    }
+                    crt = crt.next;
+                }
+                crt.next = l1 || l2;
+                //之后返回后面的指针
+                return mergedHead.next;
+            };
+    
+    </script>
+
+</body>
+
+</html>
