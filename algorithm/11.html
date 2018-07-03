@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <article>
+        <p>回文链表</p>
+    </article>
+    <script>
+        function ListNode(val) {
+            this.val = val;
+            this.next = null;
+        }
+        /**
+         * @param {ListNode} head
+         * @return {boolean}
+         */
+        var isPalindrome = function (head) {
+            //翻转，之后逐级比对 完全一致，就是正确的。
+            let prev = null,
+                next = null,
+                tmp = null,
+                _head = null,
+                tmpLink = null,
+                node = head;
+            if(!head){
+                return true;
+            }
+
+            while (node) {
+                // 注销代码，为原地反转链表
+                // tmp = node.next;//下一个元素 临时提取
+                // node.next = prev;//当前元素的下一个元素 兑换成前一个元素
+                // prev = node;// 前一个元素 下标向后移动
+                // if(!tmp){
+                //     _head = node;
+                // }
+                // node = tmp;// 当前元素的坐标也向后移动。
+
+                tmp = tmpLink;
+                tmpLink = new ListNode(node.val);
+                tmpLink.next = tmp;
+                node = node.next;
+            }
+
+            node = head;
+            while(node){
+                if(node.val === tmpLink.val){
+                    node = node.next;
+                    tmpLink = tmpLink.next;
+                }else{
+                    return false;
+                }
+            }
+
+
+            return true;
+        };
+
+
+        let link = new ListNode(1);
+        link.next = new ListNode(2);
+        link.next.next = new ListNode(3);
+        link.next.next.next = new ListNode(3);
+        link.next.next.next.next = new ListNode(2);
+        link.next.next.next.next.next = new ListNode(1);
+        // link.next.next.next.next.next.next = new ListNode(0);
+        console.log(isPalindrome(link));
+    </script>
+</body>
+
+</html>
