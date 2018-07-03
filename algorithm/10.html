@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <article>
+        <p>反转链表</p>
+    </article>
+    <script>
+        /**
+         * @param {ListNode} head
+         * @return {ListNode}
+         */
+        var reverseList = function (head) {
+            let stack = [],
+                _head,_index;
+            if(!head){
+                return head;
+            }
+
+            while (head) {
+                stack.push(head);
+                head = head.next;
+            }
+            //利用栈的 特性，先进后出，的方式， 这里相当于开辟了一个空间。
+            while (stack.length) {
+                if(!_head){
+                    _head = _index = stack.pop();
+                }else{
+                    _index = _index.next = stack.pop();
+                }
+            }
+            _index.next = null;
+            return _head;
+        };
+
+        function ListNode(val) {
+            this.val = val;
+            this.next = null;
+        }
+        let index, _head;
+        for(let i = 1; i<=5; i++){
+            if(i == 1){
+                _head = index = new ListNode(i);
+                continue
+            }
+            index = index.next = new ListNode(i);
+        }
+
+        console.log(_head);
+        debugger;
+        console.log(reverseList(_head));
+    </script>
+
+    <script>
+        //不开辟空间的方式
+        var reverseList = function(head) {
+
+            let reverseListHead = null,
+                node = head,//头指针
+                prev = null,//反转后的next， 这里指的 你当前元素的前一个
+                next;
+        
+            while (node != null) {
+                next = node.next;
+                if (next === null) {
+                    reverseListHead = node;
+                }
+                node.next = prev;//原版上一个元素， 作为当前元素的next
+                
+                prev = node;//记录当前的node为下一次用到的上一个元素
+                node = next;//当前元素指针下移
+            }
+            return reverseListHead;
+        };
+    </script>
+</body>
+
+</html>
