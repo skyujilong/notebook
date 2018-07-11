@@ -261,4 +261,12 @@
 **中根遍历，返回有序队列**
 判断是否是有序队列，要是不是就不是bst
 
+先序遍历：中 -> 左 -> 右
+
+中根遍历：左 -> 中 -> 右
+
+后序遍历：左 -> 右 -> 中
+
+[实现](https://github.com/skyujilong/notebook/blob/master/algorithm/13.html)
+
 

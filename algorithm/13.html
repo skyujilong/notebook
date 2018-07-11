@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>二叉树遍历</title>
+</head>
+<body>  
+    <article>
+        <h3>二叉树的三种便利方式</h3>
+    </article>
+    <script>
+        function TreeNode(val) {
+            this.val = val;
+            this.left = this.right = null;
+        }
+        let root = new TreeNode(25);
+        root.left = new TreeNode(10);
+        root.left.left = new TreeNode(1);
+        root.left.right = new TreeNode(17);
+        root.right = new TreeNode(30);
+        root.right.left = new TreeNode(28);
+
+    </script>
+    <script>
+        //中根遍历 遍历一个bst的时候会返回一个有序数组
+        //中根遍历 左->中->右
+        var centerList = [];
+        function center(root){
+            // if(root)
+            if(root.left){
+                center(root.left);
+            }
+            if(root){
+                centerList.push(root.val);
+            }
+            if(root.right){
+                center(root.right);
+            }
+        }
+        center(root);
+        console.log('中根遍历结果');
+        console.log(centerList);
+    </script>
+    <script>
+        let firstList = [];
+        //先序遍历
+        //中 左 右
+        function first(root){
+            if(root){
+                firstList.push(root.val);
+            }
+            if(root.left){
+                first(root.left);
+            }
+            if(root.right){
+                first(root.right);
+            }
+        }
+        first(root);
+        console.log('先序遍历结果');
+        console.log(firstList);
+
+        //后序遍历
+        //左 右 中
+        var lastList = [];
+        function last(root){
+            if(root.left){
+                last(root.left);
+            }
+            if(root.right){
+                last(root.right);
+            }
+            if(root){
+                lastList.push(root.val);
+            }
+        }
+        last(root);
+        console.log('后序遍历结果');
+        console.log(lastList);
+    </script>
+</body>
+</html>
