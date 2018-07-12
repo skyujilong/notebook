@@ -269,4 +269,31 @@
 
 [实现](https://github.com/skyujilong/notebook/blob/master/algorithm/13.html)
 
+## 13.二叉树的层次遍历
 
+给定一个二叉树，返回其按层次遍历的节点值。 （即逐层地，从左到右访问所有节点）。
+
+>例如:
+
+>给定二叉树: [3,9,20,null,null,15,7],
+
+```
+    3
+   / \
+  9  20
+    /  \
+   15   7
+```
+返回其层次遍历结果：
+```
+[
+  [3],
+  [9,20],
+  [15,7]
+]
+```
+### 答案
+[答案](https://github.com/skyujilong/notebook/blob/master/algorithm/14.html)
+
+### 思路
+先序遍历，递归的时候多加一个参数，用于标定，当前的node需要放入那哪里！
