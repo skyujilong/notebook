@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>对称二叉树</title>
+</head>
+
+<body>
+    <article>
+        <h1>对称二叉树</h1>
+        <p>给定一个二叉树，检查它是否是镜像对称的。</p>
+    </article>
+    <script>
+        function TreeNode(val) {
+            this.val = val;
+            this.left = this.right = null;
+        }
+        let root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(2);
+        root.left.left = new TreeNode(3);
+        root.left.right = new TreeNode(4);
+        root.right.left = new TreeNode(4);
+        root.right.right = new TreeNode(3);
+        root.left.right.right = new TreeNode(10);
+        root.right.left.left = new TreeNode(10);
+
+        // let root  = new TreeNode(5);
+        // root.left = new TreeNode(4);
+        // root.right = new TreeNode(1);
+        // root.left.right = new TreeNode(1);
+        // root.left.right.left = new TreeNode(2);
+        // root.right.right = new TreeNode(4);
+        // root.right.right.left = new TreeNode(2);
+
+        // let root = new TreeNode(1);
+        // root.left = new TreeNode(2);
+        // root.right = new TreeNode(2);
+        // root.left.right = new TreeNode(3);
+        // root.right.right = new TreeNode(3);
+
+    </script>
+    <script>
+        /**
+         * @param {TreeNode} root
+         * @return {boolean}
+         */
+        //  这个方法的问题是 当一个子树 完全没有子节点， 无法补全所有的子树， 无法判断出来是否是对称二叉树
+        // var isSymmetric = function (root) {
+        //     let list = [];
+        //     let flag = true;
+        //     //中根遍历
+        //     function loop(root,i) {
+        //         if (root) {
+        //             if (root.left) {
+        //                 loop(root.left,i + 1);
+        //             } else if(root.right) {
+        //                 if(!list[i+1]){
+        //                     list[i+1] = [];
+        //                 }
+        //                 list[i + 1].push(null);
+        //             }
+        //             if (root) {
+        //                 if(!list[i]){
+        //                     list[i] = [];
+        //                 }
+        //                 list[i].push(root.val);
+        //             }
+        //             if (root.right) {
+        //                 loop(root.right, i + 1);
+        //             } else if(root.left) {
+        //                 if(!list[i+1]){
+        //                     list[i+1] = [];
+        //                 }
+        //                 list[i + 1].push(null);
+        //             }
+        //         }
+        //     }
+        //     loop(root,0);
+        //     console.log(list);
+        //     for(let i = 0; i<list.length; i++){
+        //         if(list[i].length <= 1){
+        //             continue;
+        //         }
+        //         for(let j = 0; j<Math.floor(list[i].length/2); j++){
+        //             if(list[i][j] !== list[i][list[i].length - 1 - j]){
+        //                 flag = false;
+        //                 return flag;
+        //             }
+        //         }
+        //     }
+        //     return flag;
+        // };
+
+
+        var isSymmetric = function (root) {
+            let flag = true;
+            //思路，将对称二叉树堪称两棵树， 然后两棵树进行比对是否完全一样
+            function loop(leftRoot,rightRoot){
+                if(leftRoot && rightRoot && leftRoot.val === rightRoot.val){
+                    loop(leftRoot.left,rightRoot.right);
+                    loop(leftRoot.right,rightRoot.left);
+                }else if(!leftRoot && !rightRoot){
+                    return;
+                }else{
+                    flag = false;
+                }
+            }
+            if(!root){
+                return flag;
+            }
+            loop(root.left,root.right);
+            return flag;
+        };
+        console.log(isSymmetric(root));
+    </script>
+</body>
+
+</html>
