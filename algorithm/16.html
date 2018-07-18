@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>构建搜索二叉树</title>
+</head>
+<body>
+    <article>
+ 将一个按照升序排列的有序数组，转换为一棵高度平衡二叉搜索树。 本题中，一个高度平衡二叉树是指一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1。 示例:
+    </article>
+    <script>
+        function TreeNode(val) {
+            this.val = val;
+            this.left = this.right = null;
+        }
+
+        /**
+        * @param {number[]} nums
+        * @return {TreeNode}
+        */
+        var sortedArrayToBST = function(nums) {
+
+            if(!nums || nums.length===0){
+                return null;
+            }
+
+            let midIndex = Math.floor(nums.length/2); 
+            let root = new TreeNode(nums[midIndex]);
+            let leftArray = nums.slice(0,midIndex);
+            let rightArray = nums.slice(midIndex+1,Infinity);
+            
+            /**
+            *   node当前的节点， leftList rightList，分别是 要给左子树的数组与要分配给右子树的节点。
+            *   更优秀一点的解决方案，只传递下标， 不要传递 这种分解数组。 比如 0 与 len - 1 的中间值为 0 + (len - 1 - 0)/2
+            
+                function helper(nums, low, high) {
+                    if (low > high) { // Done
+                        return null;
+                    }
+                    //获取中间值
+                    var mid = Math.floor(low + (high - low) / 2);
+                    var node = new TreeNode(nums[mid]);
+                    //获取下一个中间值
+                    node.left = helper(nums, low, mid - 1);
+                    node.right = helper(nums, mid + 1, high);
+                    return node;
+                }
+
+            */
+            function buildBST(node,leftList,rightList){
+
+                if(leftList.length !== 0){
+                    let midIndex = Math.floor(leftList.length/2);   
+                    node.left = new TreeNode(leftList[midIndex]);
+                    buildBST(node.left,leftList.slice(0,midIndex),leftList.slice(midIndex+1,Infinity));
+                }
+                if(rightList.length !== 0){
+                    let midIndex = Math.floor(rightList.length/2);   
+                    node.right = new TreeNode(rightList[midIndex]);
+                    buildBST(node.right,rightList.slice(0,midIndex),rightList.slice(midIndex+1,Infinity));
+                }
+            }
+
+
+            buildBST(root,leftArray,rightArray);
+
+            return root;
+        };
+        console.log(sortedArrayToBST([-10,-3,0,5,9]));
+    </script>
+
+
+</body>
+</html>
