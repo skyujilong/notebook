@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动态规划</title>
+</head>
+
+<body>
+    <article>
+        <h1>爬楼梯</h1>
+        <p>
+            假设你正在爬楼梯。需要 n 步你才能到达楼顶。
+        </p>
+        <p>
+            每次你可以爬 1 或 2 个台阶。你有多少种不同的方法可以爬到楼顶呢？
+        </p>
+    </article>
+    <script>
+        /**
+         * @param {number} n
+         * @return {number}
+         */
+        var climbStairs = function (n) {
+            if (n == 1) {
+                return 1;
+            }
+            if (n == 2) {
+                return 2;
+            }
+            let map = {};
+            function getResult(n) {
+                if (n == 1) {
+                    return 1;
+                }
+                if (n == 2) {
+                    return 2;
+                }
+                //添加缓存， 该缓存用来防止重复计算用，因为 在递归的过程中，会有大量的重复计算， f(9) = f(8) + f(7); f(10) = f(9) + f(8);等等
+                //这种方式属于开辟内存空间。
+                if(map[n]){
+                    return map[n];
+                }
+
+                let val = getResult(n - 1) + getResult(n - 2);
+                map[n] = val;
+                //直接这么来内存溢出了， 需要来一个字典进行缓存操作
+                return val;
+            }
+            return getResult(n);
+        };
+        console.log(climbStairs(100));
+
+        //采用 无内存空间开辟的方式， 其实就是采用双指针的方式
+        function climbStairs2(n){
+            if(n == 2){
+                return 2;
+            }
+            if(n == 1){
+                return 1;
+            }
+            // 记录f(n-1)与f(n-2)的值，倒过来推
+            let prev = 2 , prevprev = 1, sum = 0, tmp;
+            //f(n) = f(n-1) + f(n-2)
+            for(let i = 3; i<=n; i++){
+                sum = prev + prevprev;
+                tmp = prev;
+                prev = sum;
+                prevprev = tmp;
+            }
+            return sum;
+        }
+        console.log(climbStairs2(10));
+    </script>
+</body>
+
+</html>
