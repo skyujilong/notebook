@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>最大子序和</title>
+</head>
+
+<body>
+    <article>
+        <h1>最大子序和</h1>
+    </article>
+    <script>
+        var maxSubArray = function (nums) {
+            let map = [], maxVal;
+            
+            /**
+            * 获取当前值的最大结果
+            */
+            function max(index){
+                let currentMaxVal,currentMaxSub = {
+                    start:index,
+                    end:index
+                }, tmp;
+                for(let i = index; i>=0; i--){
+                    //eg: index为下标3，那么3 新增的组合有， [3],[3,2],[3,2,1]。之前的2有[2],[2,1],之前的1有[1]，这样f(3) = max(f(3),f(2),f(1));
+                    if(Object.prototype.toString.call(currentMaxVal)  !== '[object Number]'){
+                        currentMaxVal = nums[i];
+                        tmp = nums[i];
+                        continue;
+                    }
+                    if(tmp + nums[i] > currentMaxVal){
+                        currentMaxVal = tmp + nums[i];
+                        currentMaxSub.start = i;
+                    }
+                    tmp += nums[i];
+                }
+                //用作之前数据计算的结果 缓存
+                map[index] = {
+                    val:currentMaxVal,
+                    info:currentMaxSub
+                };
+                let tmpMax = map[0];
+                maxVal = map[0].val;
+                for(let j = 1; j<=index; j++){
+                    if(maxVal < map[j].val){
+                        maxVal = map[j].val;
+                    }
+                    if(map[j].val > tmpMax.val){
+                        tmpMax = map[j];
+                    }
+                }
+                map[index] = tmpMax;
+            }
+            
+            //TODO: 写一个方法， 根据传递进来的下标，确定这个下标连续数组最大和，然后判断+上当前的值 是否值得更大！
+            for (let i = 0; i < nums.length; i++) {
+                // debugger;
+                max(i);
+            }
+            console.log(map);
+            console.log(maxVal);
+            return maxVal;
+        };
+
+
+        maxSubArray([-2,1,-3,4,-1,2,1,-5,4]);
+    </script>
+</body>
+
+</html>
