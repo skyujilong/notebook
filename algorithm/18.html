@@ -70,7 +70,22 @@
     </script>
 
     <script>
-        
+        //更优算法思考
+         var maxSubArray1 = function(nums) {
+            if(nums != null){
+                var sum = nums[0];
+                var maxSum = nums[0];
+
+                for(var i=1;i<nums.length;i++){
+                    //sum的和，都是从最大的值开始的。
+                    //如果发现后面的数字 相加比原来当前的数字小， 那么应该从当前的数字算起，计算后面的。
+                    sum = Math.max(nums[i], sum+=nums[i]);
+                    maxSum = Math.max(sum,maxSum);
+                }
+
+                return maxSum;
+            }
+        };
     </script>
 </body>
 
