@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>买卖股票的最佳时机</title>
+</head>
+
+<body>
+    <article>
+        <h1>买卖股票的最佳时机</h1>
+        <p>
+            给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。 如果你最多只允许完成一笔交易（即买入和卖出一支股票），设计一个算法来计算你所能获取的最大利润。 注意你不能在买入股票前卖出股票。
+        </p>
+    </article>
+    <script>
+        /**
+         * @param {number[]} prices
+         * @return {number}
+         */
+        var maxProfit = function (prices) {
+            if (!prices || prices.length == 0) {
+                return 0;
+            }
+            let max = 0;
+            let tmp = prices[0];//记录当前的低点下标位置。
+            for (let i = 1; i < prices.length; i++) {
+                if (tmp - prices[i] > 0) {
+                    //发现，有比当前点还低的价格，记录
+                    tmp = prices[i];
+                }
+                //记录交易的最大差值，prices[i] - tmp的作用就是 返回当前记录点与之后每个交易时间点的差值，max记录的就是其中这些点
+                //中最大的一笔交易值。
+                max = Math.max(prices[i] - tmp, max);
+            }
+            return max;
+        };
+    </script>
+</body>
+
+</html>
