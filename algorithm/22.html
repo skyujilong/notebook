@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <article>
+        <h1>不同路径</h1>
+        <p>
+            一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。
+
+            机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。
+
+            问总共有多少条不同的路径？
+        </p>
+    </article>
+    <script>
+        var uniquePaths = function (m, n) {
+            if (m === 1 || n === 1) {
+                return 1;
+            }
+
+            var map = {
+                '0-0': 0,
+                '0-1': 1,
+                '1-0': 1
+            };
+
+            function test(a, b) {
+                //这里判断 是否为0 是因为，为0了 就代表只有一条路线能过去，及为1
+                map[a + '-' + b] = 
+                    ( (a-1 === 0 || b ===0) ? 1 : map[(a - 1) + '-' + b]) 
+                        + 
+                    ((a === 0 || b - 1 === 0) ? 1 : map[a + '-' + (b - 1)]);
+            }
+            //m=1,n=1 f(m,n) = 1 + 1; 
+            //最后一步的来源，f(m, n) = f(m - 1, n) + f(m, n - 1)
+            for (var i = 1; i < m; i++) {
+                for (var j = 1; j < n; j++) {
+                    test(i, j);
+                }
+            }
+            // console.log(map);
+            return map[(m - 1) + '-' + (n - 1)];
+        };
+        console.log(uniquePaths(1,10));
+    </script>
+</body>
+
+</html>

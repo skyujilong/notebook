@@ -439,7 +439,7 @@
 ## 答案
 [答案](https://github.com/skyujilong/notebook/blob/master/algorithm/19.html)
 
-## 打家劫舍
+## 19.打家劫舍
 你是一个专业的小偷，计划偷窃沿街的房屋。每间房内都藏有一定的现金，影响你偷窃的唯一制约因素就是相邻的房屋装有相互连通的防盗系统，如果两间相邻的房屋在同一晚上被小偷闯入，系统会自动报警。
 
 给定一个代表每个房屋存放金额的非负整数数组，计算你在不触动警报装置的情况下，能够偷窃到的最高金额。
@@ -458,9 +458,34 @@
      偷窃到的最高金额 = 2 + 9 + 1 = 12 。
 ```
 ### 答案
-[答案](https://github.com/skyujilong/notebook/blob/master/algorithm/19.html)
+[答案](https://github.com/skyujilong/notebook/blob/master/algorithm/20.html)
 ### 解析
 ```
 //最优子表达式
 f(n) = max{f(n-2)+nums[n],f(n-1)}
 ```
+
+## 20.不同路径
+一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为“Start” ）。
+
+机器人每次只能向下或者向右移动一步。机器人试图达到网格的右下角（在下图中标记为“Finish”）。
+
+问总共有多少条不同的路径？
+
+**示例 1:**
+```
+输入: m = 3, n = 2
+输出: 3
+解释:
+从左上角开始，总共有 3 条路径可以到达右下角。
+1. 向右 -> 向右 -> 向下
+2. 向右 -> 向下 -> 向右
+3. 向下 -> 向右 -> 向右
+```
+**示例 2:**
+```
+输入: m = 7, n = 3
+输出: 28
+```
+### 答案
+[答案](https://github.com/skyujilong/notebook/blob/master/algorithm/22.html)

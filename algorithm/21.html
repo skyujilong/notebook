@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <article>
+        <h1>打家劫舍2</h1>
+        <p>未解决</p>
+    </article>
+    <script>
+        var rob = function (nums) {
+            if (!nums || nums.length == 0) {
+                return 0;
+            }
+            if (nums.length == 1) {
+                return nums[0];
+            }
+            if (nums.length ==
+                2) {
+                return Math.max(nums[0], nums[1]);
+            }
+            //需要记录 是否首位数已经加入了 
+            let map = {
+                0: {
+                    val: nums[0],
+                    hasFirst: true
+                }
+            };
+            if (nums[1] > nums[0]) {
+                map[1] = {
+                    val: nums[1],
+                    hasFirst: false
+                };
+            } else {
+                map[1] = {
+                    val: nums[0],
+                    hasFirst: true
+                };
+            }
+            let max = map[1];
+            for (let i = 2; i < nums.length; i++) {
+                debugger;
+                //最优子表达式为 f(i)=m ax(f(i-2) + nums[i],f(i-1)); 
+                if (nums[i] + map[i - 2].val >= map[i - 1].val && i <
+                    nums.length - 1) {
+                    map[i] = {
+                        val: nums[i] + map[i - 2].val,
+                        hasFirst: map[i - 2].hasFirst
+                    }
+                } else if (nums[i] + map[i - 2].val < map[i - 1].val) {
+                    map[i] = {
+                        val: map[i - 1].val,
+                        hasFirst: map[i - 1].hasFirst
+                    }
+                } else if (nums.length - 1 === i && nums[i] + map[i - 2].val > map[i - 1].val) { 
+                    //最后一个进行特殊处理 
+                    if (map[i - 2].hasFirst) {
+                        map[i] = {
+                            val: Math.max(Math.max(nums[i], nums[0]) + map[i - 2].val -
+                                nums[0], map[i - 1].val),
+                            hasFirst: true
+                        };
+                    } else {
+                        map[i] = {
+                            val: nums[i] + map[i - 2].val,
+                            hasFirst: map[i - 2].hasFirst
+                        }
+                    }
+                }
+            }
+            console.log(map);
+            return map[nums.length - 1].val;
+        };
+
+        console.log(rob([1,1,1,2]));
+    </script>
+</body>
+
+</html>
