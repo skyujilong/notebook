@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //找零钱的 不是这么找的。。。 
+        // var coinChange = function (coins, amount) {
+        //     let tmpCoins = coins.sort(function(a,b){
+        //         return a - b;
+        //     });
+        //     console.log(tmpCoins);
+        //     let count = 0;
+        //     let tmpAmount = amount;
+        //     for (let i = tmpCoins.length - 1; i >= 0; i--) {
+        //         debugger;
+        //         let n = Math.floor(tmpAmount / tmpCoins[i])
+        //         count += n;
+        //         tmpAmount -= tmpCoins[i] * n;
+        //         if (tmpAmount == 0) {
+        //             break;
+        //         }
+        //     }
+        //     if (tmpAmount > 0) {
+        //         return -1;
+        //     }
+        //     return count;
+        // };
+        // console.log(coinChange([186,419,83,408],6249));
+            
+        //假设，n为总价值，数组a为纸币面值的集合，那么有如下最优子表达式为：
+        //f(n) = MIN{f(n-a[1]) + 1,f(n-a[2]) + 1,f(n-a[3]) + 1...,f(n-a[n]) + 1}
+        //当判断成立条件，需要n > a[i];
+            
+        var coinChange = function (coins, amount){
+            let dp = [];   
+            for(var i = 0; i<amount; i++){
+                for(var j = 0; j<coins.length; j++){
+                    
+                }
+            }
+        }
+
+
+
+    </script>
+</body>
+
+</html>
