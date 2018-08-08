@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <article>
+        <h1>Longest Increasing Subsequence</h1>
+        <p>
+            给定一个无序的整数数组，找到其中最长上升子序列的长度。
+        </p>
+        <p>
+            示例:
+
+            输入: [10,9,2,5,3,7,101,18]
+            输出: 4 
+            解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。
+        </p>
+    </article>
+    <script>
+        
+        var lengthOfLIS = function(nums){
+            if(nums.length === 0){
+                return 0;
+            }
+            var map = {};
+            var max = 1;
+            // f(n) = Max{f(1),f(2),f(3)...f(n-1)} + 1
+            for(let i = 0; i<nums.length; i++){
+                if(!map[i]){
+                    map[i] = 1;
+                }
+                for(let j = 0; j < i; j++){
+                    if(nums[i] > nums[j]){
+                        //当j有小于i的存在的时候进行更新i的长度。
+                        map[i] = Math.max(map[i],map[j] + 1);
+                        //通过对比i与j的值，来确定i值的最大上升子数组的长度。
+                    }
+                    max = Math.max(map[i],max);
+                }
+            }
+            // console.log(map);
+            return max;
+        }
+
+        console.log(lengthOfLIS([4,10,4,3,8,9]));
+    </script>
+</body>
+</html>
