@@ -34,20 +34,46 @@
         // };
         // console.log(coinChange([186,419,83,408],6249));
             
-        //假设，n为总价值，数组a为纸币面值的集合，那么有如下最优子表达式为：
-        //f(n) = MIN{f(n-a[1]) + 1,f(n-a[2]) + 1,f(n-a[3]) + 1...,f(n-a[n]) + 1}
-        //当判断成立条件，需要n > a[i];
-            
+        // 最优子表达式为： f(i) = Min{f(i-a[0]),f(i-a[1],....f(i-a[n]))} + 1;    
         var coinChange = function (coins, amount){
-            let dp = [];   
-            for(var i = 0; i<amount; i++){
+            let dp = [];
+
+            if(amount === 0){
+                return 0;
+            }
+            // 初始化值
+            for(var x = 0; x<coins.length; x++){
+                if(coins[x] > amount){
+                    continue;
+                }
+                dp[coins[x]] = 1;
+            }
+            // console.log(dp);
+            for(var i = 1; i<amount + 1; i++){
                 for(var j = 0; j<coins.length; j++){
-                    
+                    // debugger;
+                    if(coins[j] > i || !dp[i - coins[j]]){
+                        //这种情况不合格
+                        //1. coins[j] > i 当前的货币面值，比当前要找零的总数大！
+                        //2. do[i - coins[j]]无解， 这个解值，是从1开始一步一步算出来的，
+                        // 那么假设 我们前面dp[i - coins[0]] dp[i - coins[1]] 都有解， 那么意味着dp[i] 也是有解的，
+                        // 而且解有两个， 一个是多找回一张coins[0]的面额， 一个是多找回一张coins[1]的面额，因为面额的不同，
+                        // 从而变成比较dp[i - coins[0]] 与 dp[i - coins[1]]的大小问题。因为我们目的是找回对方最少的纸币数量
+                        // 因而，我们选择较小的dp[x]+1【x是上面Min{dp[i-coins[0]],dp[i-coins[1]]}的值，+1后作为当前的dp[i]的值。
+                        continue;
+                    }
+                    // dp中存的是 张数
+                    // 这里当发现dp[i] 无解的时候，我们默认给赋值无限大，因为我们会去求当前i的最小解。
+                    // 程序运行到这里的时候代表，当前i是有解的。
+                    dp[i] = Math.min(dp[i] || Infinity,dp[i-coins[j]] + 1);
                 }
             }
+            // console.log(dp);
+            return dp[amount] || -1;
         }
 
-
+        // console.log(coinChange([186,419,83,408],6249));
+        console.log(coinChange([1,3,5],11));
 
     </script>
 </body>
