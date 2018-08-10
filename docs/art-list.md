@@ -32,3 +32,4 @@
 1. [vue双向绑定，set get方法劫持介绍](https://segmentfault.com/a/1190000006599500)
 1. [babel core源码分析](https://octman.com/blog/2016-08-27-babel-notes/)
 1. [tensorflow机器学习](https://www.tensorflow.org/)
+1. [google你的第一个pwa应用](https://developers.google.com/web/fundamentals/codelabs/your-first-pwapp/?hl=zh-cn)
