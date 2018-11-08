@@ -16,3 +16,4 @@
 1. [canvas下载动态图片](https://github.com/skyujilong/notebook/blob/master/docs/canvas-downimg.md)
 1. [redux源码分析](https://github.com/skyujilong/notebook/blob/master/docs/redux.md)
 1. [react-redux源码分析](https://github.com/skyujilong/notebook/blob/master/docs/react-redux.md)
+1. [如何解决uc屏蔽你的推荐位](https://github.com/skyujilong/notebook/blob/master/docs/uc-ad.md)
