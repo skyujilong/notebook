@@ -72,3 +72,57 @@
 
     // 强制转换 someValue中的any类型， 判断成string,之后，获取string的length属性，返回的是数字类型。
 ```
+
+### interface
+接口可以定义类型, 可以用接口定义的类型去进行数据类型的检测工作。
+
+```javascript
+interface Itest{
+    name:string;//属性
+    ():void;//描述的方法
+    getVal(name:string):string;
+    val?:string; // 可选属性。 可以有val 也可以没有val
+    readonly key:string; // 只读 不可更改
+}
+
+// 定义一个符合Idemo的数组集合。
+interface Idemo{
+    name:string;
+    value:string;
+}
+let list:Idemo[];
+list = [];
+list.push({
+    name:'jilong5',
+    value:'23333'
+});
+
+// 定义参数
+interface Iparams {
+    name:string;
+    sayHello(text:string):string;
+}
+
+function testIparams(params:Iparams):void{
+    let whatSay = params.sayHello(params.name);
+    console.log(whatSay);
+}
+testIparams({
+    name:'jilong5',
+    sayHello(name:string):string{
+        return '我说了什么？' + name;
+    }
+});// 输出 我说了什么？jilong5
+
+
+// 定义函数
+
+interface ItestFun{
+    (name:string):void;
+}
+let testFun:ItestFun;
+testFun = function(name){
+    console.log(name);
+}
+testFun('233'); //输出 233
+```
