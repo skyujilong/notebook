@@ -73,7 +73,7 @@
     // 强制转换 someValue中的any类型， 判断成string,之后，获取string的length属性，返回的是数字类型。
 ```
 
-### interface
+### interface 接口
 接口可以定义类型, 可以用接口定义的类型去进行数据类型的检测工作。
 
 ```javascript
@@ -125,4 +125,33 @@ testFun = function(name){
     console.log(name);
 }
 testFun('233'); //输出 233
+
+
+```
+
+## 类型别名 type
+类型别名会给一个类型起个新名字。 类型别名有时和接口很像，但是可以作用于原始值，联合类型，元组以及其它任何你需要手写的类型。
+
+```javascript
+    type ItestFun = (name:string)=>void;
+    let testFun:ItestFun;
+    testFun = function(name){
+        console.log(name);
+    }
+    testFun('233'); //输出 233
+
+    // 思考上面的例子与前面的interface定义的有何不同？
+    
+    // 像我们提到的，类型别名可以像接口一样；然而，仍有一些细微差别。
+    //
+    type Alias = { num: number }
+    interface Interface {
+        num: number;
+    }
+    //鼠标悬停在 arg上 aliased返回的是字面量提示
+    declare function aliased(arg: Alias): Alias;
+    // interfaced 的 arg上是Interface
+    declare function interfaced(arg: Interface): Interface;
+    // 另外的区分就是在于type类型别名不能被 extends和 implements ！！
+
 ```
