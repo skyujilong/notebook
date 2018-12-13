@@ -1,6 +1,10 @@
 # base type
 ## 用途
 帮助你写出更好的javascript代码。运行前检查。强类型，在构建中大型项目的时候，更容易排查错误。代码提示（类型以及参数提示友好）。
+
+## 检测
+采用鸭式辨型法。 所谓的鸭式，就是，我刚开始有一个类型是鸭子。鸭子会嘎嘎叫！这个时候来来个牛逼的狗子！也会嘎嘎叫， 那么在类型检测的时候， 我也会把这个狗子当成鸭子来进行处理！主意原因是因为他俩都同时拥有**嘎嘎叫**!
+
 ## 类型介绍
 ### 基本类型
 ```javascript
@@ -154,4 +158,120 @@ testFun('233'); //输出 233
     declare function interfaced(arg: Interface): Interface;
     // 另外的区分就是在于type类型别名不能被 extends和 implements ！！
 
+```
+
+## class 类
+```javascript
+class Greeter {
+    greeting: string;
+    constructor(message: string) {
+        this.greeting = message;
+    }
+    greet() {
+        return "Hello, " + this.greeting;
+    }
+}
+let instance:Greeter = new Greeter();
+
+```
+
+### 继承
+```javascript
+class Animal {
+    name:string;
+    constructor(name:string){
+        this.name = name;
+    }
+    move(distanceInMeters: number = 0) {
+        console.log(`Animal moved ${distanceInMeters}m.`);
+    }
+}
+
+class Dog extends Animal {
+    constructor(name:string){
+        // 继承在这里 在有参数的情况下，或者你实现了constructor的时候需要优先调用super函数。
+        super(name);
+    }
+    bark() {
+        console.log('Woof! Woof!');
+    }
+}
+
+const dog = new Dog('hashiqi');
+dog.bark(); //  输出 Woof! Woof!
+dog.move(10);// 输出 Animal moved 10m.
+dog.bark();// 输出 Woof! Woof!
+
+```
+
+### 公共，私有与受保护的修饰符
+TypeScript里，成员都默认为 public。
+1. public 都可以访问到
+1. private 它就不能在声明它的类的外部访问
+1. protected 派生类中能够访问到
+
+### 存取器
+```javascript
+let passcode = "secret passcode";
+
+class Employee {
+    private _fullName: string;
+
+    get fullName(): string {
+        return this._fullName;
+    }
+
+    set fullName(newName: string) {
+        if (passcode && passcode == "secret passcode") {
+            this._fullName = newName;
+        }
+        else {
+            console.log("Error: Unauthorized update of employee!");
+        }
+    }
+}
+
+let employee = new Employee();
+employee.fullName = "Bob Smith";// 会调用 set fullName这个函数！
+if (employee.fullName) { // 这里会调用get fullName函数
+    alert(employee.fullName);
+}
+// 主意该特性是基于Object.defineProperty方法的， 他原理应该是去劫持了该方法中的set以及get方法。 同时因为该api编译的target应该为 ecma5以及以上！
+```
+
+首先，存取器要求你将编译器设置为输出ECMAScript 5或更高。 不支持降级到ECMAScript 3。 其次，只带有 get不带有 set的存取器自动被推断为 readonly。 这在从代码生成 .d.ts文件时是有帮助的，因为利用这个属性的用户会看到不允许够改变它的值。
+
+
+### 抽象类
+```javascript
+abstract class Animal {
+    abstract makeSound(): void;
+    move(): void {
+        console.log('roaming the earch...');
+    }
+}
+// 抽象类，主要是继承该类的派生类， 必须要实现abstract修饰的方法！
+```
+
+### 静态方法
+```javascript
+class Animal{
+    static name = 'hello!'
+}
+// 访问该全局属性
+console.log(Animal.name); // 输出： hello!
+```
+
+### 类当作接口使用
+```javascript
+class Point {
+    x: number;
+    y: number;
+}
+// 接口能够继承类，来进行属性的扩展！
+interface Point3d extends Point {
+    z: number;
+}
+
+let point3d: Point3d = {x: 1, y: 2, z: 3};
 ```
