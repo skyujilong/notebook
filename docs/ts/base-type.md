@@ -275,3 +275,44 @@ interface Point3d extends Point {
 
 let point3d: Point3d = {x: 1, y: 2, z: 3};
 ```
+
+
+## 泛型
+
+```javascript 
+// 当我们有这么一个需求， 传入的对象，需要和返回的对象是同一个类型的时候， 我们采取泛型。
+// identity<T> 中的这个<T> 是一个定义，定义了一个叫T的类型。
+// 后边arg: T  以及function返回的T，都是可以直接用的，代表前面定义好的类型。
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+//复合类型例子。
+// 当我们有需要有多个泛型的时候该如何书写
+function identity2<T, K>(arg1: T, arg2: K): T & K {
+    // 返回一个T 和 K的一个混合对象！
+    return Object.assign({}, arg1, arg2);
+}
+console.log(identity2({name:'jilong5'},{age:25}));
+// 输出 {name: "jilong5", age: 25}
+
+// 当然还可以继承
+interface test {
+    name: string;
+    age: number;
+}
+//只能继承不能用implements
+function identity3<T extends test>(arg: T): void {
+    // 没有extends 会有什么产生
+    // arg.name会发生报错。说没有name在arg属性上！
+    console.log(arg.name);
+}
+let obj:test;
+obj = {
+    name:'jilong5',
+    age:25
+};
+identity3(obj);
+// 输出jilong5
+
+```
