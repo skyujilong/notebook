@@ -296,7 +296,7 @@ function identity2<T, K>(arg1: T, arg2: K): T & K {
 console.log(identity2({name:'jilong5'},{age:25}));
 // 输出 {name: "jilong5", age: 25}
 
-// 当然还可以继承
+// 当然还可以继承 & 当然一个class也是可以的！
 interface test {
     name: string;
     age: number;
