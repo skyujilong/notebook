@@ -609,7 +609,9 @@ class BaseWrapper extends Component{
 ```
 
 参考文献：
+
 [深入理解React 高阶组件](http://www.voidcn.com/article/p-axmxqahg-bmq.html)
+
 [Higher-Order Components](https://reactjs.org/docs/higher-order-components.html)
 
 
