@@ -1,4 +1,4 @@
-# react HOC
+# react HOC 一次应用
 ## 业务场景
 需求
 1. 博客正文页中，a标签的点击，要判断是否是博客的正文， 如果是，呼起app的正文页面。如果不是用普通的webview来打开这个额外的页面。
@@ -53,3 +53,563 @@
     "time_stamp": 1543196916
 }
 ```
+
+## 分析
+首先我们的正文页中的内容，都在article_body字段中。这个东西是整体，我们同时又需要能知道a标签的href是具体跳转到哪里，另外还要考虑img标签的按需加载以及点击重新加载，或者点击展示客户端的控件。
+
+## 首次粗暴的实现
+这里定义了一个ArticleBody组件。
+粗略实现如下：
+```javascript
+import './scss/index.scss';
+import React,{PureComponent} from 'react';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
+//common2Native 代码块是用来请求native相关的操作
+import { common2Native} from '../../interface/common';
+
+class ArticleBody extends PureComponent{
+    constructor(){
+        super();
+        this.tap = this.tap.bind(this);
+        this.scrollFn = this.scrollFn.bind(this);
+        this.countVideo = this.countVideo.bind(this);
+        this.state = {
+            onScrollFn:false
+        };
+    }
+    render(){
+        let {content,fontSize} = this.props;
+        let fontClz = 'middle';
+        switch(fontSize){
+            case 1:
+                fontClz = 'small';
+                break;
+            case 2:
+                fontClz = 'middle';
+                break;
+            case 3:
+                fontClz = 'large';
+                break;
+            case 4:
+                fontClz = 'xlarge';
+                break;
+            default:
+                fontClz = 'middle';
+        }
+        return (
+            <article onClick={this.tap} className={'article-body ' + fontClz} dangerouslySetInnerHTML={{__html:content}}></article>
+        );
+    }
+    componentDidMount(){
+        if (!document.querySelectorAll('.unloaded') || document.querySelectorAll('.unloaded').length !== 0){
+            this.scrollFn();
+            window.addEventListener('scroll', this.scrollFn, false);
+            this.setState({
+                onScrollFn:true
+            });
+        }
+
+        let videos = document.querySelectorAll('video');
+        if(videos.length !== 0){
+            for(let i = 0; i<videos.length; i++){
+                videos[i].addEventListener('play',this.countVideo,false);
+            }
+        }
+        
+    }
+    componentWillUnmount(){
+        let { onScrollFn} = this.state;
+        if (onScrollFn){
+            window.removeEventListener('scroll',this.scrollFn);
+        }
+
+        let videos = document.querySelectorAll('video');
+        if (videos.length !== 0) {
+            for (let i = 0; i < videos.length; i++) {
+                videos[i].removeEventListener('play', this.countVideo, false);
+            }
+        }
+    }
+    tap(e){
+        e.preventDefault();
+        e.stopPropagation();
+        let el = e.target;
+        let {tagName} = el;
+        this.tapImg(el);
+        if (tagName.toLocaleLowerCase() === 'a'){
+            //处理跳转逻辑
+            this.tapATag(el);
+        }
+    }
+    countVideo(event){
+        let el = event.target;
+        //上报 用户播放video的统计
+        if (el.dataset.ableCount - 0 === 1){
+            //上报点击播放视频
+            common2Native.countVideo({url:el.src});
+            el.dataset.ableCount = 0;
+        }
+    }
+    tapATag(el){
+        let {href} = el;
+        if(!href){
+            return;
+        }
+        if ( href.indexOf('javascript:') != -1){
+            return;
+        }
+        /**
+         * 获取url参数对应的值
+         * @param {*} url 地址
+         * @param {*} obj 要获取的参数对象，eg，url: http://blog.sina.com.cn/?a=2233&b=23 传递{a:'',b:''},返回 {a:2233,b:23}
+         */
+        let getParams = (url,obj)=>{
+            let paramsReg = /[?&]{1}([^=]*)=([^&]*)/g;
+            let result;
+            while (result = paramsReg.exec(url)){
+                let [,paramKey,paramVal] = result;
+                for(let key in obj){
+                    if (key === paramKey){
+                        obj[key] = paramVal || ''
+                    }
+                }
+            }
+            return obj;
+        }
+        try{
+            //http://blog.sina.cn/dpool/blog/newblog/mblog/controllers/user.php?uid=1259295385
+            if(/blog\.sina\.cn\/dpool\/blog\/newblog\/mblog\/controllers\/user\.php/.test(href)){
+                //跳转到人。
+                let data = getParams(href,{
+                    'uid':''
+                });
+                common2Native.jump2Native({
+                    type:'user',
+                    data
+                });
+            }else if(/blog\.sina\.cn\/dpool\/blog\/newblog\/mblog\/controllers\/articletopic\.php/.test(href)){
+                //跳转到主题
+                //http://blog.sina.cn/dpool/blog/newblog/mblog/controllers/articletopic.php?topicId=41879f3321000063
+                let data = getParams(href, {
+                    'topicId': ''
+                });
+                common2Native.jump2Native({
+                    type:'topic',
+                    data:{
+                        channelId: data.topicId
+                    }
+                });
+            }else if(/blog\.sina\.cn\/dpool\/blog\/newblog\/mblog\/controllers\/articleserial.php/.test(href)){
+                //连载详情
+                //http://blog.sina.cn/dpool/blog/newblog/mblog/controllers/articleserial.php?blog_uid=1566335543&class_id=16
+                let data = getParams(href, {
+                    blog_uid:'',
+                    class_id:''
+                });
+                common2Native.jump2Native({
+                    type:'serial',
+                    data:{
+                        classId: data.class_id,
+                        uid: data.blog_uid
+                    }
+                });
+            } else if (/blog\.sina\.cn\/dpool\/blog\/s\/blog_/.test(href) || /blog\.sina\.com\.cn\/s\/blog_/.test(href)){
+                //博文正文页面
+                //http://blog.sina.cn/dpool/blog/s/blog_475bc9a50102y18v.html?cre=blogpagew&mod=f&loc=2&r=0&doct=0&rfunc=99&tj=none
+                let reg = /blog_([^\.]*)/;
+                let articleId = reg.exec(href)[1];
+                common2Native.jump2Native({
+                    type:'article',
+                    data:{
+                        articleId
+                    }
+                })
+            } else if(/blog\.sina\.cn\/dpool\/blog\/u\//.test(href) || /blog\.sina\.com\.cn\/u\//.test(href)){
+                //个人页面
+                //http://blog.sina.cn/dpool/blog/u/1197197733#type=-1
+                let reg = /u\/(\d+)/;
+                let uid = reg.exec(href)[1];
+                common2Native.jump2Native({
+                    type:'user',
+                    data:{
+                        uid
+                    }
+                });
+            } else {
+                common2Native.jump2Native({
+                    type:'webview',
+                    data:{
+                        url:href
+                    }
+                })
+            }
+        }catch(e){
+            //如果解析过程中发生错误， 直接采用webview的方式打开
+            console.log(e.stack);
+            common2Native.jump2Native({
+                type: 'webview',
+                data: {
+                    url: href
+                }
+            })
+        }
+    }
+
+    tapImg(el){
+        let { bodyImgList } = this.props;
+        //重新加载 或者是点击呼唤起来app浏览图片页面
+        if (el.className.indexOf('reload') != -1) {
+            //点击的重新加载图片
+            this.loadImg(el);
+            return;
+        }
+        if (el.className.indexOf('able-tap-img') != -1) {
+            let orgUrl = decodeURIComponent(el.dataset.src);
+            // call native view pic 
+            let index = bodyImgList.findIndex((val) => {
+                return val === orgUrl;
+            })
+            common2Native.showNativeImgViewer(index, bodyImgList.toJS());
+        }
+    }
+
+    scrollFn(){
+        let listImg = document.querySelectorAll('.unloaded');
+        if (!listImg || listImg.length === 0){
+            return;
+        }
+        let offsetScroll = document.body.scrollTop + document.documentElement.scrollTop;
+        let offset = 500;
+        //低版本的android webview 没有实现nodelist对象的syobol对象
+        for (let i = 0; i < listImg.length; i++){
+            let el = listImg[i];
+            if (el.offsetTop < offsetScroll + offset + window.innerHeight){
+                el.className = 'loading-img';
+                //请求native 缓存组件加载图片
+                this.loadImg(el);        
+            }
+        }
+    }
+    loadImg(el){
+        let realSrc = decodeURIComponent(el.dataset.src);
+        let {articleWidth} = this.props;
+        common2Native.loadImg(realSrc).then((localUrl)=>{
+            el.className = 'able-tap-img';
+            el.src = localUrl;
+            //是pc的正常图片的
+            if(el.dataset.type === 'pc'){
+                let img = new Image();
+                img.onload = ()=>{
+                    //低于50 * 50 的图片剧中，原图大小展示， 高于这个尺寸的， 直接满屏幕拉满！
+                    if(img.width >= getComputedStyle(document.documentElement).fontSize.replace('px','') * articleWidth || (img.width>50 && img.height > 50)){
+                        el.style.width = articleWidth + 'rem';
+                        el.style.height = 'auto';
+                    }else{
+                        el.style.width = 'auto';
+                        el.style.height = 'auto';
+                    }
+                    img.onload = null;
+                    img = null;
+                }
+                img.src = localUrl;
+                
+            }
+        },()=>{
+            //下载失败，展示点击下载图片
+            el.className = 'reload'
+        });
+    }
+}
+ArticleBody.proptypes = {
+    content: PropTypes.string.isRequired,
+    fontSize: PropTypes.number.isRequired,
+    bodyImgList: PropTypes.array.isRequired,
+    articleWidth: PropTypes.number.isRequired
+}
+// function mapStateToProps(state){
+//     let {article} = state;
+//     // let {body,fontSize} = article.toJS();
+//     return {
+//         content: article.get('body'),
+//         fontSize: article.get('fontSize'),
+//         bodyImgList: article.get('bodyImgList')
+//     };
+// }
+// function mapDispatchToProps(dispatch){
+//     return {};
+// }
+// export default connect(mapStateToProps, mapDispatchToProps)(ArticleBody);
+export default ArticleBody;
+
+```
+
+
+分析上述代码：
+
+1. constructor 函数中，初始化了滚动的状态。
+2. componentDidMount 函数中，我们注册了window.onscroll函数，以及video的播放事件，用于上报统计。
+3. 监听了click事件。然后让事件根据e.target的不同类型， 分发到不同的函数处理对应的业务逻辑。
+
+整体的逻辑， 我们就都写在了这个组件内了。
+
+错没有大错。但是前一阵子听闻了我们的产品，要强化video的交互工作，比方说，播放的视频滚动出可视区域后， 我们将期关闭播放！
+
+我这一听，大惊失色啊！我现在代码，在往下写下去。会有问题的啊。不够方便维护啊！有没有什么方案来将图片处理逻辑，a标签的处理逻辑以及video的标签的处理逻辑分离那！这样我们的维护将会大大的方便了！
+
+有！就是react的hoc。我们接下来分析。
+
+# hoc
+## hoc 是什么
+**hoc 分离逻辑以及封装通用逻辑。(本质上是装饰着设计模式的一种实现)**
+
+## 新的hoc后的代码
+hoc
+```javascript
+import React, {
+    Component
+} from 'react';
+/**
+ * 正文页内容高阶组件，用于处理正文当中的a标签，video标签，以及img标签等。 将不同的标签分开进行处理，方便后期对不同的标签维护升级！
+ * @param {*} opt 
+ */
+export default function articleProcessHoc(opt) {
+    let isMove = false;
+    return (WrappedComponent) => {
+        if(opt.init){
+            opt.init();
+        }
+        return class ArticleProcessed extends Component {
+            constructor() {
+                super();
+                // this.click = this.click.bind(this);
+                this.touchStart = this.touchStart.bind(this);
+                this.touchMove = this.touchMove.bind(this);
+                this.touchEnd = this.touchEnd.bind(this);
+            }
+            UNSAFE_componentWillUpdate(nextProps, nextState){
+                opt.setProps(nextProps);
+            }
+            componentDidMount(){
+                opt.setProps(this.props);
+                if(opt.didMount){
+                    opt.didMount();
+                }
+            }
+            componentWillUnmount(){
+                if(opt.willUnmount){
+                    opt.willUnmount(this.props);
+                }
+            }
+            touchStart(e) {
+                isMove = false;
+            }
+            touchMove() {
+                isMove = true;
+            }
+            touchEnd(e) {
+                if (!isMove) {
+                    opt.tap(e,this.props);
+                }
+            }
+            // click() {
+
+            // }
+            render() {
+                let {
+                    onTouchStart,
+                    onTouchMove,
+                    onTouchEnd,
+                    // onClick
+                } = this.props;
+                let props = {
+                    onTouchStart: !onTouchStart ? this.touchStart : (e)=>{
+                        this.touchStart(e);
+                        onTouchStart(e);
+                    },
+                    onTouchMove: !onTouchMove ? this.touchMove : (e)=>{
+                        this.touchMove(e);
+                        onTouchMove(e);
+                    },
+                    onTouchEnd: !onTouchEnd ? this.touchEnd : (e)=>{
+                        this.touchEnd(e);
+                        onTouchEnd(e);
+                    },
+                    // onClick: !onClick ? this.click : (e)=>{
+                    //     this.click(e);
+                    //     onClick(e);
+                    // },
+                    // TODO: style以及class的样式穿透调整
+                    style: {
+                        ...this.props.style
+                    }
+                };
+                return React.cloneElement( <WrappedComponent/> , { ...this.props, ...props});
+            }
+        }
+    }
+}
+
+```
+
+核心通过 **React.cloneElement** api来复制了 wrappedComponent组件。同时将props对象传递到，新的组件上。
+
+在看这个articleProcessHoc 方法， 该方法是返回了一个function，这样我们可以在这个function中去做我们的业务需求。
+
+比方说，这里我将touch一系列的事件劫持了，这样，我们可以模拟初来一个tap事件，解决click的延迟执行的问题。
+
+注意这里的写法
+```javascript
+let props = {
+    onTouchStart: !onTouchStart ? this.touchStart : (e)=>{
+        this.touchStart(e);
+        onTouchStart(e);
+    },
+    onTouchMove: !onTouchMove ? this.touchMove : (e)=>{
+        this.touchMove(e);
+        onTouchMove(e);
+    },
+    onTouchEnd: !onTouchEnd ? this.touchEnd : (e)=>{
+        this.touchEnd(e);
+        onTouchEnd(e);
+    },
+    // onClick: !onClick ? this.click : (e)=>{
+    //     this.click(e);
+    //     onClick(e);
+    // },
+    // TODO: style以及class的样式穿透调整
+    style: {
+        ...this.props.style
+    }
+}; 
+```
+因为事件是采用react的事件机制，所以在多个高阶组件串联的时候， 我们需要将之前的事件也一样进行派发出去，否则后来的高阶组件的事件会将之前的事件覆盖掉。
+
+因为我们对react的生命周期也有需求，所以我们也同样劫持了react的生命周期函数。该函数会进行对应的事件派发。
+
+还有一个地方，我们需要用到props相关的属性， 这个时候我在UNSAFE_componentWillUpdate 以及 componentDidMount 将props重新赋值了回去。方便在我们抽离出来的逻辑中进行操作。
+
+
+使用：
+
+视频播放统计逻辑
+```javascript
+import articleProcessHoc from './hoc';
+import BaseOpt from './base-opt';
+import { common2Native } from '../../interface/common';
+
+class VideoHandler extends BaseOpt {
+    constructor(){
+        super();
+        this.countVideo = this.countVideo.bind(this);
+    }
+    didMount() {
+        // 挂载事件
+        let videos = document.querySelectorAll('video');
+        if (videos.length !== 0) {
+            for (let i = 0; i < videos.length; i++) {
+                videos[i].addEventListener('play', this.countVideo, false);
+            }
+        }
+    }
+    willUnmount() {
+        // 卸载事件
+        let videos = document.querySelectorAll('video');
+        if (videos.length !== 0) {
+            for (let i = 0; i < videos.length; i++) {
+                videos[i].removeEventListener('play', this.countVideo, false);
+            }
+        }
+    }
+    countVideo(event) {
+        let el = event.target;
+        //上报 用户播放video的统计
+        if (el.dataset.ableCount - 0 === 1) {
+            //上报点击播放视频
+            common2Native.countVideo({ url: el.src });
+            el.dataset.ableCount = 0;
+        }
+    }
+}
+
+const articleVideoProcess = articleProcessHoc(new VideoHandler());
+
+export default articleVideoProcess;
+
+```
+高阶函数的使用：
+```javascript
+    let Comp = articleVideoProcess(WrapperedComponent);
+    //然后直接在render中进行使用<Comp {...props}></Comp> 就可以了
+```
+参数上， 我们将主要的业务组件放进去， 这样我们的video相关的代码就被剥离出来了
+
+如上，我们仅仅是剥离了我们的视频业务代码。 那么其他的怎么办那？
+
+要是能够这么写就清晰多了：
+
+```javascript
+import articleImgProcess from '../article-process/img';
+import articleVideoProcess from '../article-process/video';
+import articleATagProcess from '../article-process/a-tag';
+
+import hocConnect from '../../../lib/kit/util/hoc-connect';
+// 正文页内容处理， 图片处理， 视频处理， a标签的处理！
+let ArticleContent = hocConnect(articleImgProcess, articleVideoProcess, articleATagProcess)(ArticleBody);
+```
+
+那么怎么做那：
+
+如下我们来看一下hocConnect的代码：
+```javascript
+export default function hocConnect(){
+    let args = Array.prototype.slice.call(arguments);
+    return (WrapperedComment)=>{
+        let tmpComment = WrapperedComment;
+        for(let i = 0; i<args.length; i++){
+            tmpComment = args[i](tmpComment);
+        }
+        return tmpComment;
+    }
+}
+```
+这个代码做了什么那， 就是将articleImgProcess(ArticleBody)运行的结果，放在articleVideoProcess函数中运行，之后在放在articleATagProcess中进行运行。
+
+上述的hocConnect实际上是可以翻译成的结果如下：
+
+*articleATagProcess(articleVideoProcess(articleImgProcess(ArticleBody)))*
+
+不过这样不好看，我们采用上述的方式将其拉平！
+
+至此我们一个能够分解功能逻辑，公用代码的hoc就完成了。
+
+当然这个并不是一个标准的hoc，这个有点变种了，相当于，做了一次串联操作，方便我们的功能拆分，以及代码的维护。
+
+
+## 注意事项
+因为hoc每次返回的都是一个新的组件，因此尽量不要在render中返回，这样的话，会每次都重新渲染新的对象。
+
+应该在静态的位置去生成这个新的组件，比方说在import其他资源的下方位置。
+
+eg:
+
+```javascript
+import articleImgProcess from '../article-process/img';
+import articleVideoProcess from '../article-process/video';
+import articleATagProcess from '../article-process/a-tag';
+
+import hocConnect from '../../../lib/kit/util/hoc-connect';
+// 正文页内容处理， 图片处理， 视频处理， a标签的处理！
+let ArticleContent = hocConnect(articleImgProcess, articleVideoProcess, articleATagProcess)(ArticleBody);
+class BaseWrapper extends Component{
+    render(){
+        return (<ArticleContent/>);
+    }
+}
+```
+
+参考文献：
+[深入理解React 高阶组件](http://www.voidcn.com/article/p-axmxqahg-bmq.html)
+[Higher-Order Components](https://reactjs.org/docs/higher-order-components.html)
+
+
