@@ -36,3 +36,4 @@
 1. [google你的第一个pwa应用](https://developers.google.com/web/fundamentals/codelabs/your-first-pwapp/?hl=zh-cn)
 1. [web-push](https://segmentfault.com/a/1190000013061924)
 1. [A Complete Guide to Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
+1. [https证书相关](https://www.barretlee.com/blog/2015/10/05/how-to-build-a-https-server/)
