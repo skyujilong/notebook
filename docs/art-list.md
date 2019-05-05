@@ -38,3 +38,4 @@
 1. [web-push](https://segmentfault.com/a/1190000013061924)
 1. [A Complete Guide to Flexbox](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
 1. [https证书相关](https://www.barretlee.com/blog/2015/10/05/how-to-build-a-https-server/)
+1. [flutter白屏](https://www.developerlibs.com/2018/07/flutter-how-to-fix-white-screen-on-app.html)
