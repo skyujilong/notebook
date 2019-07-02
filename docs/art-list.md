@@ -40,3 +40,4 @@
 1. [https证书相关](https://www.barretlee.com/blog/2015/10/05/how-to-build-a-https-server/)
 1. [flutter白屏](https://www.developerlibs.com/2018/07/flutter-how-to-fix-white-screen-on-app.html)
 1. [webcomponent|本质是基于shadow dom，从而能够天生隔离css的全局作用](https://zhuanlan.zhihu.com/p/42370005)
+1. [CSS预加载Preload](https://zhuanlan.zhihu.com/p/32561606)
