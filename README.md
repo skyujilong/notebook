@@ -23,3 +23,4 @@
 1. [ec2&ssh](https://github.com/skyujilong/notebook/blob/master/docs/shadow-socks&ec2.md)
 1. [webpack tapable源码分析](https://github.com/skyujilong/notebook/blob/master/docs/tapable.md)
 1. [video播放的相关思考](https://github.com/skyujilong/notebook/blob/master/docs/video.md)
+1. [web首屏优化相关](https://github.com/skyujilong/notebook/blob/master/docs/web-performance.md)
