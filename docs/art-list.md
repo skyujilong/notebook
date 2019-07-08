@@ -12,6 +12,7 @@
 1. [贝塞尔曲线类库，在0与1之间渐变,用户动画渐变](https://github.com/skyujilong/bezier-easing)
 1. [async function](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/async_function)
 1. [how to proxy request in node.js](https://www.vanamco.com/2014/06/24/proxy-requests-in-node-js/)
+1. [互联网协议入门](http://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html)
 1. [tcp/ip,http,socket的区别](http://lib.csdn.net/article/computernetworks/20534)
 1. [一次http请求中的3次tcp握手，以及4次tcp挥手](https://blog.csdn.net/sinat_21455985/article/details/53508115)
 1. [promise 好文](https://zhuanlan.zhihu.com/p/25178630)
