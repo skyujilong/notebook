@@ -25,3 +25,4 @@
 1. [video播放的相关思考](https://github.com/skyujilong/notebook/blob/master/docs/video.md)
 1. [web首屏优化相关](https://github.com/skyujilong/notebook/blob/master/docs/web-performance.md)
 1. [一次web http请求都发生了什么](https://github.com/skyujilong/notebook/blob/master/docs/http.md)
+1. [event loop](https://github.com/skyujilong/notebook/blob/master/docs/event-loop.md)
