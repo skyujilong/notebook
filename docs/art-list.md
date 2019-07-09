@@ -42,3 +42,4 @@
 1. [flutter白屏](https://www.developerlibs.com/2018/07/flutter-how-to-fix-white-screen-on-app.html)
 1. [webcomponent|本质是基于shadow dom，从而能够天生隔离css的全局作用](https://zhuanlan.zhihu.com/p/42370005)
 1. [CSS预加载Preload](https://zhuanlan.zhihu.com/p/32561606)
+1. [css reflow & repaint](https://juejin.im/post/5a9372895188257a6b06132e)
