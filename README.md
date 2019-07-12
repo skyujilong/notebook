@@ -26,3 +26,4 @@
 1. [web首屏优化相关](https://github.com/skyujilong/notebook/blob/master/docs/web-performance.md)
 1. [一次web http请求都发生了什么](https://github.com/skyujilong/notebook/blob/master/docs/http.md)
 1. [event loop](https://github.com/skyujilong/notebook/blob/master/docs/event-loop.md)
+1. [redux-saga源码粗略分析](https://github.com/skyujilong/notebook/blob/master/docs/redux-saga.md)
