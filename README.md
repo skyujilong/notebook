@@ -27,3 +27,4 @@
 1. [一次web http请求都发生了什么](https://github.com/skyujilong/notebook/blob/master/docs/http.md)
 1. [event loop](https://github.com/skyujilong/notebook/blob/master/docs/event-loop.md)
 1. [redux-saga源码粗略分析](https://github.com/skyujilong/notebook/blob/master/docs/redux-saga.md)
+1. [es6 class static function test](https://github.com/skyujilong/notebook/blob/master/docs/es6-static-fn.md)
