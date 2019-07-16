@@ -40,3 +40,5 @@ console.log(Test2.testStatic);
 console.log(test2.age);
 test2.testCall();//这里当然走的依然是test1的流程
 ```
+
+react component 中的 static getDerivedStateFromProps 方法，就是采用static的特性来隔离来this，从而让你不再使用this.setState方法，构建一个安全的使用方式。
