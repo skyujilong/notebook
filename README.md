@@ -29,3 +29,4 @@
 1. [redux-saga源码粗略分析](https://github.com/skyujilong/notebook/blob/master/docs/redux-saga.md)
 1. [es6 class static function test](https://github.com/skyujilong/notebook/blob/master/docs/es6-static-fn.md)
 1. [js 继承整理](https://github.com/skyujilong/notebook/blob/master/docs/extends.md)
+1. [new操作符的还原](https://github.com/skyujilong/notebook/blob/master/docs/new.md)
