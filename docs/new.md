@@ -33,6 +33,7 @@ var instance = newInstance(Foo,1,2);
 输出instance对象结果：
 
 ![new对象的结果](https://github.com/skyujilong/notebook/blob/master/src/new.png)
+
 正常new操作符的结果：
 
 ![正常new操作符的](https://github.com/skyujilong/notebook/blob/master/src/regular-new.png)
