@@ -28,3 +28,4 @@
 1. [event loop](https://github.com/skyujilong/notebook/blob/master/docs/event-loop.md)
 1. [redux-saga源码粗略分析](https://github.com/skyujilong/notebook/blob/master/docs/redux-saga.md)
 1. [es6 class static function test](https://github.com/skyujilong/notebook/blob/master/docs/es6-static-fn.md)
+1. [js 继承整理](https://github.com/skyujilong/notebook/blob/master/docs/extends.md)
