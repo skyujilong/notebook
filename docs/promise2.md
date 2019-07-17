@@ -1,4 +1,4 @@
-#实现一个promise
+# 实现一个promise
 ## 要点
 
 状态
