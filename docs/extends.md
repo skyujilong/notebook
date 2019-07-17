@@ -15,6 +15,7 @@ class Xoo extends Foo{}
 let testXoo1 = new Xoo(1,2);
 ```
 输出testXoo1的内容如下：
+
 ![testXoo1的结构](https://github.com/skyujilong/notebook/blob/master/src/testXoo1-inner.png)
 
 ## es5 实现
@@ -36,6 +37,7 @@ Xoo.prototype.constructor = Xoo;// constructor重新指向Xoo
 let es5 = new Xoo(1,2);// es5.__proto__ === Xoo.prototype true   es5.__proto__.__proto__ === Foo.prototype true
 ```
 输出的es5对象如下：
+
 ![es5的结构](https://github.com/skyujilong/notebook/blob/master/src/es5-inner.png)
 
 ## Object.create方法的实现
@@ -57,6 +59,7 @@ Xoo.prototype.constructor = Xoo;
 let objectCreate = new Xoo(1,2);
 ```
 输出的结构对象如下：
+
 ![objectCreate结构](https://github.com/skyujilong/notebook/blob/master/src/es5-inner.png)
 
 ## Object.create定义
