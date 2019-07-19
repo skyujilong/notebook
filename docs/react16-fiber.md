@@ -59,21 +59,45 @@ React Element
 
 ### ReactDOM.render 第一次react渲染页面
 
-legacyRenderSubtreeIntoContainer -> legacyCreateRootFromDOMContainer(获取root) -> ReactRoot.render -> updateContainer->updateContainerAtExpirationTime(首次初始化fiber)->scheduleRootUpdate(创建一个upader负载payload 以及next newEffect)->fiber流程
+legacyRenderSubtreeIntoContainer -> legacyCreateRootFromDOMContainer(获取root) -> ReactRoot.render -> updateContainer->updateContainerAtExpirationTime(首次初始化fiber)->scheduleRootUpdate(创建一个upader负载payload 以及next & newEffect)->fiber流程
 
-### fiber流程
+### fiber流程
 
 enqueueUpdate & scheduleWork(划分任务等级) -> requestWork -> performWork -> renderRoot(创建workInProcess Fiber)-> workLoop (开始工作循环递归) -> performUnitOfWork(计算当前的workInProgress fiber，备份current fiber（老的状态）) -> beginWork(根据workInProgress.tag走不同的逻辑) -> 子流程1 ->completeUnitOfWork -> completeWork(根据不同的tag执行不同的分支，看子流程2)->completeRoot->commitRoot(消费Effect进行Reactdom操作)
 
 ### 子流程1
 子流程 以 tag 符合Compenent为例子
 
-->updateClassComponent （没有current就创建，有进入更新环节，我们进入更新环节）-> updateClassInstance(比对props发现不同，调用shouldComponentUpdate函数，会调用callComponentWillReceiveProps生命周期函数， 标记Effect（要执行更新)) -> reconcileChildren(计算子元素的fiber，并标记) 上述过程反复递归执行。
-
+->updateClassComponent （没有current就创建，有进入更新环节，我们进入更新环节）-> updateClassInstance(比对props发现不同，调用shouldComponentUpdate函数，会调用callComponentWillReceiveProps生命周期函数， 标记Effect（要执行更新)) -> reconcileChildren(计算子元素的fiber，并标记) 上述过程反复递归执行。->reconcileChildFibers(子元素，标记Effect（要执行更新)，加入Effect队列中)
 
 ### 子流程2
-->updateHostComponent(比对新老props进行更新操作,标记更新)
-TODO：Text的写一个
+
+子流程 tag HostComponent 为例子
+
+->updateHostComponent(react-reconciler/src/ReactFiberCompleteWork.js 比对新老props进行更新操作,标记更新)->prepareUpdate(react-dom/src/client/ReactDOMHostConfig.js)->diffProperties(计算两颗树的不同，将不同的属性值计算的结果放入数组中返回，实际上是挂载在workInProgress.updateQueue上)->markUpdate(标记要更新)
 
 
 
+## 结语
+
+
+在上述Fiber的过程中，低优先级的操作可以被高优先级的操作打断，并让主线程执行高优先级的更新，以时用户可感知的响应更快。
+
+但是重新执行的低优先级的任务，会从头开始，因此会导致生命周期函数会被执行复数次。
+
+![生命周期函数](https://github.com/skyujilong/notebook/blob/master/src/reconciliation.png)
+
+phase1 的流程的生命周期函数会被执行多次
+
+## 参考
+[React Fiber](https://juejin.im/post/5ab7b3a2f265da2378403e57#heading-7)
+
+[Reconciliation](https://reactjs.org/docs/reconciliation.html)
+
+[fiber-reconciler](https://reactjs.org/docs/codebase-overview.html#fiber-reconciler)
+
+[requestidlecallback调度](https://www.w3.org/TR/requestidlecallback/)
+
+[react-fiber](http://echizen.github.io/tech/2019/04-06-react-fiber)
+
+[React Fiber](https://juejin.im/post/5ab7b3a2f265da2378403e57)
