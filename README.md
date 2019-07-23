@@ -32,3 +32,4 @@
 1. [js 继承整理](https://github.com/skyujilong/notebook/blob/master/docs/extends.md)
 1. [new操作符的还原](https://github.com/skyujilong/notebook/blob/master/docs/new.md)
 1. [react16 fiber](https://github.com/skyujilong/notebook/blob/master/docs/react16-fiber.md)
+1. [what`s doing in new Vue](https://github.com/skyujilong/notebook/blob/master/docs/vue-code.md)
