@@ -24,7 +24,7 @@ React Fiber是react16的核心引擎。
 
 ## 如何让人能够控制任务的优先级
 
-all new api (requestAnimationFrame)[https://www.w3.org/TR/requestidlecallback/]
+all new api [requestIdleCallback](https://www.w3.org/TR/requestidlecallback/)
 
 该方法能够在空闲时间执行你的函数
 
@@ -41,7 +41,7 @@ Fiber在这个流程中干了什么事情？
 
 就是在new State + props 进入state的时候，进行计算。计算两个树的区别，与不通。
 
-那两颗树那？ 就是之前的React Element树与 新的计算后的React Element的树的区别，之后在标记区别，然后让react dom 进行操作更新。
+哪两颗树那？ 就是之前的React Element树与 新的计算后的React Element的树的区别，之后在标记区别，然后让react dom 进行操作更新。
 
 React Element 
 
