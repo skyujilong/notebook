@@ -15,6 +15,7 @@
 1. [互联网协议入门](http://www.ruanyifeng.com/blog/2012/05/internet_protocol_suite_part_i.html)
 1. [tcp/ip,http,socket的区别](http://lib.csdn.net/article/computernetworks/20534)
 1. [一次http请求中的3次tcp握手，以及4次tcp挥手](https://blog.csdn.net/sinat_21455985/article/details/53508115)
+1. [图解HTTPS](https://juejin.im/post/5b0274ac6fb9a07aaa118f49)
 1. [promise 好文](https://zhuanlan.zhihu.com/p/25178630)
 1. [ios中UIWebView与WKWebView、Javascript与oc交互、Cookie管理好文（一）](http://www.jianshu.com/p/ac45d99cf912)
 1. [ios中UIWebView与WKWebView、Javascript与oc交互、Cookie管理好文（二）](http://www.jianshu.com/p/870dba42ec15)
