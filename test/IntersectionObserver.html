@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>IntersectionObserver 测试</title>
+    <style>
+        div{
+            height: 300px;
+            width: 300px;
+            text-align: center;
+            line-height: 300px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        let colors = ['#FFFFCC','#CCFFFF','#FFCCCC','#99CCCC','#FFCC99','#FFCCCC'];
+        let dcf = document.createDocumentFragment();
+        for(let i = 0 ; i<24; i++){
+            let div = document.createElement('div');
+            div.innerHTML = i + ':没有展示在可视区内！';
+            div.style.background = `${colors[i%colors.length]}`;
+            dcf.appendChild(div);
+        }
+        document.body.appendChild(dcf);
+
+        //添加ob方法观测 div的进入可视区域的情况 
+        let ob = new IntersectionObserver(function(entries){
+            //console.log(entries);
+            for(let entry of entries){
+                console.log('------------------------');
+                console.log(entry.target);//目标被检测的文件
+                console.log(entry.isIntersecting);//目标进入可视区域
+                console.log(entry.intersectionRatio);//可视区域的百分比
+                console.log(entry.intersectionRect);
+                console.log('------------------------');
+            }
+        },{
+            root:null,//没有dom就是 可视窗口
+            rootMarge:'0px',
+            threshold:0
+        });
+        for(let dom of document.querySelectorAll('div')){
+            ob.observe(dom);
+        }
+    </script>
+</body>
+</html>
