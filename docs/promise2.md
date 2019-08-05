@@ -9,6 +9,12 @@
 
 **状态的迁移，只能单向的pending -> fulfilled 或者 pending -> rejected**
 
+then方法返回一个new Promise对象。
+
+如何自动进行执行.then方法后续的所有方法。
+
+**采用队列（FIFO），缓存then方法注入的方法，resolve的时候，进行队列的出栈操作。**
+
 ```javascript
         function Promise1(cb) {
             var _self = this;
