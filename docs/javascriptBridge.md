@@ -209,6 +209,7 @@ function setupWebViewJavascriptBridge(callback) {
     var WVJBIframe = document.createElement('iframe');
     WVJBIframe.style.display = 'none';
     if (navigator.userAgent.match(/Android/gi)) {
+        //android的环境貌似触发是通过scheme伪协议来触发的。
         WVJBIframe.src = 'wvjbscheme://__BRIDGE_LOADED__';
     } else if (navigator.userAgent.match(/iPhone|iPad/gi)) {
         WVJBIframe.src = 'https://__bridge_loaded__';
