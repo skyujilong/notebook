@@ -50,3 +50,5 @@
 1. [React Fiber](https://juejin.im/post/5ab7b3a2f265da2378403e57)
 1. [vue 待啃文章](https://juejin.im/entry/5c8b1c756fb9a049de6e426b)
 1. [vue template源码解析](https://zhouweicsu.github.io/blog/2017/04/21/vue-2-0-template/)
+1. [gc相关](https://www.jb51.net/article/160606.htm)
+1. [gc相关](https://juejin.im/post/5b546bc9f265da0f8f203968)
