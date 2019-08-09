@@ -7,6 +7,7 @@
 1. [网络协议相关的一些笔记](https://github.com/skyujilong/notebook/blob/master/docs/net.md)
 1. [http队头阻塞](https://github.com/skyujilong/notebook/blob/master/docs/http1-wait-queue.md)
 1. [一次web http请求都发生了什么](https://github.com/skyujilong/notebook/blob/master/docs/http.md)
+1. [chrome](https://github.com/skyujilong/notebook/blob/master/docs/browser.md)
 1. [https详解](https://github.com/skyujilong/notebook/blob/master/docs/https.md)
 1. [html节点插入（字符串）](https://github.com/skyujilong/notebook/blob/master/docs/add-dom.md)
 1. [IntersectionObserver观察元素进出可视区域的优化](https://github.com/skyujilong/notebook/blob/master/docs/IntersectionObserver.md)
