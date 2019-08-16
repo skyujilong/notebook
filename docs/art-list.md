@@ -52,3 +52,4 @@
 1. [vue template源码解析](https://zhouweicsu.github.io/blog/2017/04/21/vue-2-0-template/)
 1. [gc相关](https://www.jb51.net/article/160606.htm)
 1. [gc相关](https://juejin.im/post/5b546bc9f265da0f8f203968)
+1. [chrome白皮书](https://www.infoq.cn/article/CS9-WZQlNR5h05HHDo1b)

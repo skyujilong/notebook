@@ -76,6 +76,8 @@ tab关闭的释放内存，也是同样的，一个进程的结束，会释放�
 
 主要是资源的开销，会比单进程的浏览器要高的多。
 
+复杂性，要高很多。
+
 ## chrome当前的架构
 
 ![浏览器架构图](https://github.com/skyujilong/notebook/blob/master/src/browser-arch2.png)
