@@ -100,9 +100,11 @@ tab关闭的释放内存，也是同样的，一个进程的结束，会释放�
 ## 参考
 [inside-browser](https://developers.google.com/web/updates/2018/09/inside-browser-part1)
 
-## 一次渲染的过程
+## 一次页面的请求
+TOOD: 解释一次url的请求
 
-TOOD：
+## 一次渲染的过程
+TOOD：解释整个浏览器的渲染过程
 
 ## TODO:
 继续深入了解整个chrome
