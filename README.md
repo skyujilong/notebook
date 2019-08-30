@@ -39,3 +39,4 @@
 1. [react16 fiber](https://github.com/skyujilong/notebook/blob/master/docs/react16-fiber.md)
 1. [what`s doing in new Vue](https://github.com/skyujilong/notebook/blob/master/docs/vue-code.md)
 1. [javascriptBridge core](https://github.com/skyujilong/notebook/blob/master/docs/javascriptBridge.md)
+1. [web worker性能调查](https://github.com/skyujilong/notebook/blob/master/docs/worker.md)

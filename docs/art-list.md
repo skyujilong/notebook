@@ -53,4 +53,5 @@
 1. [gc相关](https://www.jb51.net/article/160606.htm)
 1. [gc相关](https://juejin.im/post/5b546bc9f265da0f8f203968)
 1. [chrome白皮书](https://www.infoq.cn/article/CS9-WZQlNR5h05HHDo1b)
+1. [浏览器渲染详解*深度好文](https://juejin.im/entry/590801780ce46300617c89b8)
 1. [谈谈源码泄露 · WEB 安全](http://blogspring.cn/view/275)
