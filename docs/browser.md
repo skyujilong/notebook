@@ -151,7 +151,7 @@ TOOD: 解释一次url的请求
 
 当然，因为Graphics Layer上，因为会有缓存，会导致内存的大量占用。当Graphics Layer数量足够多的时候，会对页面造成卡顿。
 
-[合并图例](https://github.com/skyujilong/notebook/blob/master/src/compositing-process.png)
+![合并图例](https://github.com/skyujilong/notebook/blob/master/src/compositing-process.png)
 
 ## TODO:
 继续深入了解整个chrome
