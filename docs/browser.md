@@ -97,14 +97,52 @@ tab关闭的释放内存，也是同样的，一个进程的结束，会释放�
 
 主要是为了了解如何让页面更快的呈现在用户面前，并且不在发生卡顿。
 
-## 参考
-[inside-browser](https://developers.google.com/web/updates/2018/09/inside-browser-part1)
 
 ## 一次页面的请求
 TOOD: 解释一次url的请求
 
 ## 一次渲染的过程
-TOOD：解释整个浏览器的渲染过程
+### 流程 
+1. 解析html 生成dom tree
+2. 请求其他次级资源
+3. 解析css【样式计算】构建cssom(css object module)
+4. 遇到script标签（type="text/javascript"）执行js代码
+5. cssom + dom tree = 渲染树（render tree）
+6. render tree => Render Layer(由于有z-index分层，opacity小于1，transform等，分层)
+7. 生成合成图层（Compositing Layer【在gpu内】）
+
+### 详细流程
+前面1，2，3，4，5步如下图：
+
+![dom tree 到 render tree](https://github.com/skyujilong/notebook/blob/master/src/render-tree-construction.png)
+
+---
+
+**分层Render Layer**
+
+为什么要分层？
+
+因为页面中有一些复杂的效果，比方说3d转换，transform移动，z-index的上下层级，半透明等效果。
+
+*分层的依据：*
+
+1. will-change 属性、 translate3d、 z-index等
+2. 有超出限定部分出现滚动条的。
+3. video & canvas
+4. CSS filter
+
+**合成图层Compositing Layer**
+
+将render layer根据需求提升到Graphics Layer
+
+*依据:*
+
+
 
 ## TODO:
 继续深入了解整个chrome
+
+## 参考
+[inside-browser](https://developers.google.com/web/updates/2018/09/inside-browser-part1)
+
+[渲染树构建、布局及绘制](https://developers.google.com/web/fundamentals/performance/critical-rendering-path/render-tree-construction?hl=zh-cn)
