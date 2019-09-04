@@ -116,6 +116,11 @@ TOOD: 解释一次url的请求
 
 ![dom tree 到 render tree](https://github.com/skyujilong/notebook/blob/master/src/render-tree-construction.png)
 
+
+1-7 的4种树类型的转换如下：
+
+![the_compositing_forest](https://github.com/skyujilong/notebook/blob/master/src/the_compositing_forest.png)
+
 ---
 
 **分层Render Layer**
@@ -128,6 +133,9 @@ TOOD: 解释一次url的请求
 
 1. will-change 属性、 translate3d、 z-index、CSS filter等
 2. 有超出限定部分出现滚动条的(剪裁)。
+3. 根结点（body）
+4. canvas 3d 或者是加速的2d
+5. video标签
 
 **合成图层Compositing Layer**
 
@@ -140,7 +148,7 @@ TOOD: 解释一次url的请求
 4. 对 opacity、transform、fliter、backdropfilter 应用了 animation 或者 transition（需要是 active 的 animation 或者 transition，当 animation 或者 transition 效果未开始或结束后，提升合成层也会失效）
 5. css filter
 6. 元素有一个包含复合层的后代节点(换句话说，就是一个元素拥有一个子元素，该子元素在自己的层里)
-7. 元素有一个 z-index 较低且包含一个复合层的兄弟元素(换句话说就是该元素在复合层上面渲染)
+7. 元素有一个 z-index 较低且包含一个复合层的兄弟元素(换句话说就是你渲染的元素，有一个兄弟元素，该兄弟元素是合成图层&z-index值低)
 8. 硬件加速的插件，比如 flash 等等
 9. will-change 设置为 opacity、transform、top、left、bottom、right（其中 top、left 等需要设置明确的定位属性，如 relative 等）
 10. 隐式的提升，eg 页面上俩个元素a与b，两者是兄弟元素，a元素与b元素有覆盖的部分，a元素在下面（z-index小），当a元素有will-change:transform的时候（满足上面9个条件中任意一个）， 则b元素也会被提升。
