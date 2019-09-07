@@ -137,6 +137,10 @@ TOOD: 解释一次url的请求
 4. canvas 3d 或者是加速的2d
 5. video标签
 
+*图层*
+
+![合并图例](https://github.com/skyujilong/notebook/blob/master/src/compositing-process.png)
+
 **合成图层Compositing Layer**
 
 将render layer根据需求提升到Graphics Layer
@@ -155,11 +159,73 @@ TOOD: 解释一次url的请求
 
 为什么要提升到Graphics Layer，思考一下，如果上述css的动画，都是上述render tree计算得出来的，这样每次都要更改计算位图（后边讲一下位图的概念），之后还要重新走到render layer这个步骤，再提交给gpu进行输出到用户的屏幕上，这样会频繁占用cpu的计算资源，其中js的线程与渲染的线程是互斥的。页面上想到得到60fps的效果非常的困难。
 
-~~但是相反，如果我们这里将动画相关资源都提升到了Graphics Layer上（gpu线程上），这里的计算都是gpu在计算，gpu是一个计算单元与cpu是一样的都是存在的硬件。这样能够分担cpu的计算压力（并行执行），并且gpu的设计本身上就是偏向计算的，不像cpu那么的复杂。所以gpu的计算是更高效的，并且css的动画本质上是矩阵的变化，矩阵变化也都是数学上的计算！再加上，因为提升到不同的图层中，这样每次变动也仅仅是变动一个图层（Graphics Layer）的数据，方便进行缓存。而且本身在gpu上，之后进行gpu的输出到屏幕上也很方便。~~
+但是相反，如果我们这里将动画相关资源都提升到了Graphics Layer上（gpu线程上），这里的计算都是gpu在计算，gpu是一个计算单元与cpu是一样的都是存在的硬件。这样能够分担cpu的计算压力（并行执行），并且gpu的设计本身上就是偏向计算的，不像cpu那么的复杂。所以gpu的计算是更高效的，并且css的动画本质上是矩阵的变化，矩阵变化也都是数学上的计算！再加上，因为提升到不同的图层中，这样每次变动也仅仅是变动一个图层（Graphics Layer）的数据，方便进行缓存。而且本身在gpu上，之后进行gpu的输出到屏幕上也很方便。
 
-当然，因为Graphics Layer上，因为会有缓存，会导致内存的大量占用。当Graphics Layer数量足够多的时候，会对页面造成卡顿。
+当然，因为Graphics Layer上，因为会有缓存(Graphics Context)，会导致内存的大量占用。当Graphics Layer数量足够多的时候，会对页面造成卡顿。
 
-![合并图例](https://github.com/skyujilong/notebook/blob/master/src/compositing-process.png)
+**Graphics Context**
+
+A GraphicsContext is responsible for writing the pixels into a bitmap that eventually get displayed to the screen. In Chrome, the GraphicsContext wraps Skia, our 2D drawing library.
+
+GraphicsContext负责将像素写入最终显示在屏幕上的位图。在Chrome中，GraphicsContext包含了我们的2D绘图库Skia(一个类库，绘画用的)。
+
+### gpu 
+
+![gpu_process](https://github.com/skyujilong/notebook/blob/master/src/the_gpu_process.png)
+
+如上图，注意两个部分。
+
+1. client -> bmp(位图)
+2. GPU中的Graphics Context
+
+解释：client是main thread。
+
+**从该图中，我们能够得知，没有经过合成图层的，部分是main thread中直接渲染出来的bmp（位图），放在共享内存中，之后在交给gpu进行渲染到显示器上的，而通过合成线程的部分，是直接在gpu中进行计算（GraphicsContext），然后在渲染到显示器上的。**
+
+
+### 合成图层与main thread计算的bmp的流程区别
+
+看一个例子：
+
+*没有走合成加速的渲染*
+
+```css
+div {
+    height: 100px;
+    transition: height 1s linear;
+}
+
+div:hover {
+    height: 200px;
+}
+```
+
+该操作流程如下：
+
+![main-thread-bmp](https://github.com/skyujilong/notebook/blob/master/src/main-bmp.png)
+
+**分析：当hover的动作执行的时候每次都是main thread进行计算出bmp，之后将bmp交给gpu进行渲染到显示器上，main thread很忙！**
+
+
+*走合成加速的渲染*
+
+```css
+div {
+    transform: scale(0.5);
+    transition: transform 1s linear;
+}
+
+div:hover {
+    transform: scale(1.0);
+}
+```
+
+该操作流程如下：
+
+![compositor-bmp](https://github.com/skyujilong/notebook/blob/master/src/compositor-bmp.png)
+
+**分析：当hover的动作执行的时候每次都是main thread仅仅是将transform的参数传递给了合成线程，由gpu进行计算出来动画的效果，并且显示到显示器上，main thread很闲！**
+
 
 
 ## event loop 发生在浏览器渲染的什么位置？
