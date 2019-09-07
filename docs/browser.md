@@ -121,6 +121,7 @@ raster thread 光栅线程
 5. cssom + dom tree = 渲染树（render tree）
 6. render tree => Render Layer(由于有z-index分层，opacity小于1，transform等，分层)
 7. 生成合成图层（Compositing Layer【在gpu内】）
+//TODO: 后边的渲染没说，Tiling & Rasterization 
 
 ### 详细流程
 前面1，2，3，4，5步如下图：
