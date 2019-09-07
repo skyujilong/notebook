@@ -132,6 +132,10 @@ raster thread 光栅线程
 
 ![the_compositing_forest](https://github.com/skyujilong/notebook/blob/master/src/the_compositing_forest.png)
 
+上图中的renderObject,是dom tree + cssom计算出来的render tree。
+
+RenderLayer 与 GraphicsLayer 对应关系是多对一的。具体看如下，大体逻辑就是没有条件升级到GraphicsLayer的RenderLayer，会找他的父亲层级，归属到他父亲节点的GraphicsLayer上。
+
 ---
 
 **分层Render Layer**
@@ -172,7 +176,7 @@ raster thread 光栅线程
 
 但是相反，如果我们这里将动画相关资源都提升到了Graphics Layer上（gpu线程上），这里的计算都是gpu在计算，gpu是一个计算单元与cpu是一样的都是存在的硬件。这样能够分担cpu的计算压力（并行执行），并且gpu的设计本身上就是偏向计算的，不像cpu那么的复杂。所以gpu的计算是更高效的，并且css的动画本质上是矩阵的变化，矩阵变化也都是数学上的计算！再加上，因为提升到不同的图层中，这样每次变动也仅仅是变动一个图层（Graphics Layer）的数据，方便进行缓存。而且本身在gpu上，之后进行gpu的输出到屏幕上也很方便。
 
-当然，因为Graphics Layer上，因为会有缓存(Graphics Context)，会导致内存的大量占用。当Graphics Layer数量足够多的时候，会对页面造成卡顿。
+当然，因为Graphics Layer上，因为会有缓存(每个Graphics Layer都有他自己的Graphics Context，用于最终执行的绘制操作。)，会导致内存的大量占用。当Graphics Layer数量足够多的时候，会对页面造成卡顿。
 
 **Graphics Context**
 
@@ -180,13 +184,15 @@ A GraphicsContext is responsible for writing the pixels into a bitmap that event
 
 GraphicsContext负责将像素写入最终显示在屏幕上的位图。在Chrome中，GraphicsContext包含了我们的2D绘图库Skia(一个类库，绘画用的)。
 
+渲染树知道页面应该展示成什么样子，渲染树通过向GraphicsContext发出必要的绘制调用来实现绘制。GraphicsContext负责将像素写入最终显示在屏幕上的位图。
+
 ### gpu 
 
 ![gpu_process](https://github.com/skyujilong/notebook/blob/master/src/the_gpu_process.png)
 
 如上图，注意两个部分。
 
-1. client -> bmp(位图)
+1. client -> **bmp**(位图)
 2. GPU中的Graphics Context
 
 解释：client是main thread。
@@ -254,15 +260,69 @@ event loop就发生在上述的javascript模块。
 
 上述1，2，3执行完毕，仅接着就执行 ui render
 
-ui render 中包含：
-1. Recalculate Style
-2. Layout
-3. Update Layer Tree
-4. Paint
-5. Composite Layers
+
+**ui render 中包含：**
+
+*1. Recalculate Style*
+
+>如果你在JS执行过程中修改了样式或者改动了DOM，那么便会执行这一步，重新计算指定元素及其子元素的样式。
+
+*2. Layout 重排*
+
+>我们常说的重排reflow。如果有涉及元素位置信息的DOM改动或者样式改动，那么浏览器会重新计算所有元素的位置、尺寸信息。而单纯修改color、background等等则不会触发重排。详见css-triggers。
+
+*3. Update Layer Tree*
+
+>这一步实际是更新Render Layer的层叠排序关系，也就是我们之前说的为了搞定层叠上下文搞出的那个东西，因为之前更新了相关样式信息和重排，所以层叠情况也可能变动。
+
+
+*4. Paint*
+
+>其实Paint有两步，第一步是记录要执行哪些绘画调用，第二步才是执行这些绘画调用。第一步只是把所需要进行的操作记录序列化进一个叫做SkPicture的数据结构里:
+
+>The SkPicture is a serializable data structure that can capture and then later replay commands, similar to a display list.
+
+>这个SkPicture其实就一个列表，记录了你的commands。接下来的第二步里会将SkPicture中的操作replay出来，这里才是将这些操作真正执行：光栅化和填充进位图。主线程中和我们在Timeline中看到的这个Paint其实是Paint的第一步操作。第二步是后续的Rasterize步骤（见后文）。
+
+
+*5. Composite Layers*
+
+>主线程里的这一步会计算出每个Graphics Layers的合成时所需要的data，包括位移（Translation）、缩放（Scale）、旋转（Rotation）、Alpha 混合等操作的参数，并把这些内容传给Compositor Thread，然后就是图中我们看到的第一个commit：Main Thread告诉Compositor Thread，我搞定了，你接手吧。然后主线程此时会去执行requestIdleCallback。这一步并没有真正对Graphics Layers完成位图的composite。
+
 
 这几个步骤， 其中rAf回调函数每次都是发生在ui render之前执行的。ui render的执行是周期性的执行 一般是16.7ms 由浏览器来决定运行时机。也就是说当我们给元素style的属性中赋值的时候，多次重复的是不会让ui反复进行变化的，因为都是等一个帧之后在进行渲染（你在这个帧内反复操作的多次，也只会绘制他们合成之后的值的结果）。
 
+
+## Force Layout
+**但是上述也有不准确的地方**
+
+>也就是说当我们给元素style的属性中赋值的时候，多次重复的是不会让ui反复进行变化的，因为都是等一个帧之后在进行渲染
+
+**没有考虑到强制重排 Force Layout**
+
+首先如果你在修改一个元素的css样式的时候，比方说高度，宽度，等能够触发Layout的一些属性。main thread会首先，将其标记为dirty。
+
+当你依然在这个frame内（当前帧），又访问了该dom的一些方法。
+
+eg:
+
+```javascript
+    var dom = document.getElementById('test');
+
+    dom.style.height = '200px'; // 假设原始高度是100px,我们这里修改成了200px
+
+    console.log(dom.style.height);// 我们这里又去访问了这个属性
+
+```
+
+main thread为了返回给console.log(dom.style.height);正确的值，将会进行**Force Layout（强制重排）**，这样上面的那些计算步骤，Recalculate Style -> Layout -> Update Layer Tree -> Paint -> Composite Layers 等等流程又的执行一边。
+
+所以为了避免上述的操作。导致main thread被大量的占用导致卡顿的发生，最好是将中间量都记录到一个变量内，仅仅在操作dom的时候进行最终赋值。
+
+
+*如果标记了dirty之后，会触发重排的属性和方法如下:*
+
+![force layout](https://github.com/skyujilong/notebook/blob/master/src/force_layout_method.png)
 
 
 
