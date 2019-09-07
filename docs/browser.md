@@ -57,7 +57,7 @@ cpu执行的最小单元是进程。一个进程可以有多个线程。
 
 从进程与线程的特点，应该就能 分析出来为什么会产生上面的问题了。
 
-## 现在的浏览器(chrome)
+## 现代的浏览器(chrome)
 
 多进程的浏览器
 
@@ -102,6 +102,17 @@ tab关闭的释放内存，也是同样的，一个进程的结束，会释放�
 TOOD: 解释一次url的请求
 
 ## 一次渲染的过程
+
+### 渲染架构 一个页面tab包含那些线程与进程
+
+main thread 主线程，包含dom解析，js执行，css的执行，layout，paint, composite layers
+
+compositor thread 合成器线程，调用gpu进程进行输出页面
+
+gpu process gpu进程 输出页面
+
+raster thread 光栅线程 
+
 ### 流程 
 1. 解析html 生成dom tree
 2. 请求其他次级资源
@@ -266,3 +277,5 @@ ui render 中包含：
 [无线性能优化：Composite](https://fed.taobao.org/blog/2016/04/26/performance-composite/)
 
 [隐式提升Graphics Layer](https://www.smashingmagazine.com/2016/12/gpu-animation-doing-it-right/)
+
+[css3 动画优化](http://blogs.adobe.com/webplatform/2014/03/18/css-animations-and-transitions-performance/)
