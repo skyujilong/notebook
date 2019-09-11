@@ -328,7 +328,8 @@ main thread为了返回给console.log(dom.style.height);正确的值，将会进
 
 
 ## TODO:
-继续深入了解整个chrome
+后续 浏览器的渲染发展方向 
+https://hacks.mozilla.org/2017/10/the-whole-web-at-maximum-fps-how-webrender-gets-rid-of-jank/
 
 ## 参考
 [inside-browser](https://developers.google.com/web/updates/2018/09/inside-browser-part1)
@@ -340,3 +341,5 @@ main thread为了返回给console.log(dom.style.height);正确的值，将会进
 [隐式提升Graphics Layer](https://www.smashingmagazine.com/2016/12/gpu-animation-doing-it-right/)
 
 [css3 动画优化](http://blogs.adobe.com/webplatform/2014/03/18/css-animations-and-transitions-performance/)
+
+[How Rendering Work (in WebKit and Blink)](https://www.zybuluo.com/rogeryi/note/18709)
