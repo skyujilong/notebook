@@ -59,3 +59,4 @@
 1. [天坑！chrome设计文档！mmp看死我了！](https://www.chromium.org/developers/design-documents)
 1. [人工智能科普文，写的超级棒，简单易懂！猴子都能看懂！](https://www.cnblogs.com/subconscious/p/4107357.html)
 1. [人工智能大神的博客](https://www.cnblogs.com/subconscious/)
+1. [webgl小人书](https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-fundamentals.html#toc)
