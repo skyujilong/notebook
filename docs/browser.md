@@ -121,7 +121,7 @@ raster thread 光栅线程
 5. cssom + dom tree = 渲染树（render tree）
 6. render tree => Render Layer(由于有z-index分层，opacity小于1，transform等，分层)
 7. 生成合成图层（Compositing Layer【在gpu内】）
-//TODO: 后边的渲染没说，Tiling & Rasterization 
+8. Tiling & Rasterization 
 
 ### 详细流程
 前面1，2，3，4，5步如下图：
@@ -186,6 +186,17 @@ A GraphicsContext is responsible for writing the pixels into a bitmap that event
 GraphicsContext负责将像素写入最终显示在屏幕上的位图。在Chrome中，GraphicsContext包含了我们的2D绘图库Skia(一个类库，绘画用的)。
 
 渲染树知道页面应该展示成什么样子，渲染树通过向GraphicsContext发出必要的绘制调用来实现绘制。GraphicsContext负责将像素写入最终显示在屏幕上的位图。
+
+
+**Tiling**
+
+优化方法，主要是将屏幕区分成一个个的小块，按照块进行渲染，超出屏幕范围的，不进行渲染。
+
+**Rasterization光栅化**
+
+将cpu上传递过来的数据，还有graphics layer中计算的数据，转化为二维的片段，绘制在屏幕上（你屏幕是2d的，光栅化就是将上一步计算出来的数据可能是3d也可能是2d的数据给你展示到你的2d的屏幕上！）。
+
+具体可以查看计算机图形学吧？里面有这些玩意。。。。。。
 
 ### gpu 
 
