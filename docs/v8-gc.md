@@ -34,7 +34,7 @@ V8采用的是标记清除算法，但是又有所区别。
 
 v8将堆栈划分为不同的部分，称之为Generational（代）【划分为年轻代与老年代】，年轻代（young generation）划分为两个部分，一个nursery，另外一个是intermediate。
 
-![v8 代](ttps://github.com/skyujilong/notebook/blob/master/src/generational-layer.svg)
+![v8 代](https://github.com/skyujilong/notebook/blob/master/src/generational-layer.svg)
 
 
 
