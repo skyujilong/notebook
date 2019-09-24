@@ -68,7 +68,46 @@ V8这里采用了半空间的算法进行Young Generation上的垃圾。这意�
 
 
 ### Orinoco 
-TODO:// v8 垃圾回收的其他技术相关。 多线程并行相关。 这部分看看就行了。
+
+传统的垃圾回收机制，都是在主线程上执行，也就是说在gc阶段，要停掉主代码的运行逻辑。
+
+Orinoco是v8 gc项目的名字，旨在运用最新的技术并发，来进行gc，不阻止主线程的执行。
+
+---
+
+**Minor GC (Scavenger)**
+
+V8 如今在Minor GC阶段采用并发线程的方式来进行gc，每个线程都接受一些指针，并将活动对象copy到to-space中。
+
+copy成功之后将地址的指针进行更新操作（将原来老的地址更换到新的地址上去）。
+
+为了快速同步幸存的对象，清理任务使用本地分配缓冲区。
+
+![v8-thread-minor-gc](https://github.com/skyujilong/notebook/blob/master/src/v8-thread-minor-gc.svg)
+
+
+---
+
+**Major GC**
+
+Major GC采用并发标记的方式来进行gc，当堆接近满了的时候，会开始进行并发标记进行gc操作。
+
+每个线程会被分配一些指针去进行跟踪标记，整个跟踪标记的过程都是在独立的线程中进行，不需要停掉主线程。
+
+![v8-gc-mager](https://github.com/skyujilong/notebook/blob/master/src/v8-gc-mager.svg)
+
+当全部都进行标记完毕，或者堆栈到达分配的限额。我们会停掉主线程，并且重新重根开始重新进行二次mark操作，用来确认活动的对象都被标记了。
+
+二次mark操作依然也会用到线程进行并发操作。
+
+---
+
+**idle-time**
+
+event loop大家都懂，其中的idle-time中的一部分运行时间，也是在跑gc操作。
+
+![v8-idle-gc](https://github.com/skyujilong/notebook/blob/master/src/v8-idle-gc.svg)
+
 
 ## 参考
 

@@ -40,3 +40,4 @@
 1. [what`s doing in new Vue](https://github.com/skyujilong/notebook/blob/master/docs/vue-code.md)
 1. [javascriptBridge core](https://github.com/skyujilong/notebook/blob/master/docs/javascriptBridge.md)
 1. [web worker性能调查](https://github.com/skyujilong/notebook/blob/master/docs/worker.md)
+1. [v8 gc](https://github.com/skyujilong/notebook/blob/master/docs/v8-gc.md)
