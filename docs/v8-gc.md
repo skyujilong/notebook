@@ -1,5 +1,61 @@
 # V8 GC
 
+## 内存的堆与栈 javascript数据的存储
+
+
+### 常规情况下的内存解析
+
+```javascript
+function foo(){
+    var a = 0; 
+    var b = a; 
+    var c = {world:'233'}
+    var d = c;
+}
+foo();
+
+```
+上述代码，当执行到foo()的时候，内存中的状态如下：
+
+![zhan&dui1](https://github.com/skyujilong/notebook/blob/master/src/zhan&dui1.png)
+
+注意观察变量c与变量d，两个都是引用的同一个地址。也就是说当你修改c.world为444的时候，同时d.world也同样为444，因为他们俩个是同一个对象（引用的地址是同样的）。
+
+同时基原类型，都是存放在栈中的，堆中都是存放的引用对象。
+
+为什么区分栈与堆？因为javascript的引擎总要维护执行期间的上下文状态。如果栈变的很大，会影响上下文的切换效率，减慢执行速度。像上面的例子，当foo函数执行完毕，foo在栈内的上下文，将会进行出栈操作，指针下移直接就切换到了全局环境了。
+
+栈设计的不是很大，但是堆被设计的很大，堆被用来进行存大数据。
+
+
+### 闭包下的内存解析
+
+```javascript
+function foo(){
+    let count = 0;
+    let tmp = {
+        world:'2333'
+    };
+    return {
+        changeCount:function(num){
+            count = num;
+        },
+        getTmp: function(){
+            return tmp;
+        }
+    }
+}
+let result = foo();
+result.changeCount(20);
+let _tmp = result.getTmp();
+console.log(_tmp.world);
+
+```
+
+分析上述闭包环境，当执行到
+
+
+
 ## 清除方案
 
 ### 计数引用清除
@@ -89,6 +145,8 @@ copy成功之后将地址的指针进行更新操作（将原来老的地址更�
 ---
 
 **Major GC**
+
+主要是用来收集old generation的垃圾代码的。
 
 Major GC采用并发标记的方式来进行gc，当堆接近满了的时候，会开始进行并发标记进行gc操作。
 
