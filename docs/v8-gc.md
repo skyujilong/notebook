@@ -52,9 +52,21 @@ console.log(_tmp.world);
 
 ```
 
-分析上述闭包环境，当执行到
+分析上述闭包环境，当执行到```let result = foo();```之后，正常foo的上下文环境应该是销毁了，也就是说foo上下文环境中的count,以及tmp都应该不能够访问才对，但是changeCount方法能够更改count，```_tmp.world```也能访问输出2333.
 
+![course1](https://github.com/skyujilong/notebook/blob/master/src/course1.png)
 
+![course2](https://github.com/skyujilong/notebook/blob/master/src/course2.png)
+
+![course3](https://github.com/skyujilong/notebook/blob/master/src/course3.png)
+
+![course4](https://github.com/skyujilong/notebook/blob/master/src/course4.png)
+
+*图三与图四，可能有不准确的地方，后边找到详细的解释在进行修改。*
+
+当foo函数进入执行阶段的时候，闭包就产生了，clourse(foo)，当foo函数执行完毕之后，返回的changeCount函数 以及getTmp函数都引用了clourse(foo)对象（**存放在堆中了**），因此即使foo函数的上下文执行环境在出栈销毁后，clourse(foo)在全局环境中依然被changeCount、getTmp方法所引用。因此下次再进行执行changeCount、getTmp的方法的时候，创建的函数上下文中就包含了clourse(foo)。
+
+>总的来说，产生闭包的核心有两步：第一步是需要预扫描内部函数，第二步是把内部函数引用的外部变量保存到堆中。
 
 ## 清除方案
 
