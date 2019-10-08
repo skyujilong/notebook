@@ -278,6 +278,7 @@ chrome main thread 中，本身是基于任务队列的。上面都是不同的�
 1. 先执行同步代码【直到执行完毕】
 2. 执行microtask queue【promise,mutation.oberver,直到执行完毕，如果这个时候又有新的，放入队尾继续执行】
 3. 执行macrotask queue【setTimeout,setInterval等，执行macrotask出栈，每次出栈都要看一下microtask 是否有内容，有就执行，没有继续执行 macrotask】
+4. 执行xhr相关的方法，这个的回调函数，会被塞入任务队列的队尾等待执行（相当于下一次的task queue进行出栈执行了）。
 
 上述1，2，3执行完毕，仅接着就执行 ui render
 
