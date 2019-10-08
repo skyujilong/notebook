@@ -257,18 +257,27 @@ div:hover {
 
 
 
-## event loop 发生在浏览器渲染的什么位置？
+## ~~event loop 发生在浏览器渲染的什么位置？~~ main thread上的event loop
 
 ![event loop](https://github.com/skyujilong/notebook/blob/master/src/event-loop-in-render-process.jpg)
 
 如上图。
 
-event loop就发生在上述的javascript模块。
+~~event loop就发生在上述的javascript模块。~~
 
-也就是说。
+上图中，javascript \ style \ layout \ paint \ composite(部分在主线程，部分在gpu进程中)
+
+基本上都是发生在main thread中的。
+
+chrome main thread 中，本身是基于任务队列的。上面都是不同的任务。
+
+而在javascript（上图黄色区域）范围内，本身也是有任务队列机制的。
+
+如下：
+
 1. 先执行同步代码【直到执行完毕】
 2. 执行microtask queue【promise,mutation.oberver,直到执行完毕，如果这个时候又有新的，放入队尾继续执行】
-3. 执行macrotask queue【raf,setTimeout,setInterval等，执行macrotask出栈，每次出栈都要看一下microtask 是否有内容，有就执行，没有继续执行 macrotask】
+3. 执行macrotask queue【setTimeout,setInterval等，执行macrotask出栈，每次出栈都要看一下microtask 是否有内容，有就执行，没有继续执行 macrotask】
 
 上述1，2，3执行完毕，仅接着就执行 ui render
 
@@ -302,7 +311,7 @@ event loop就发生在上述的javascript模块。
 >主线程里的这一步会计算出每个Graphics Layers的合成时所需要的data，包括位移（Translation）、缩放（Scale）、旋转（Rotation）、Alpha 混合等操作的参数，并把这些内容传给Compositor Thread，然后就是图中我们看到的第一个commit：Main Thread告诉Compositor Thread，我搞定了，你接手吧。然后主线程此时会去执行requestIdleCallback。这一步并没有真正对Graphics Layers完成位图的composite。
 
 
-这几个步骤， 其中rAf回调函数每次都是发生在ui render之前执行的。ui render的执行是周期性的执行 一般是16.7ms 由浏览器来决定运行时机。也就是说当我们给元素style的属性中赋值的时候，多次重复的是不会让ui反复进行变化的，因为都是等一个帧之后在进行渲染（你在这个帧内反复操作的多次，也只会绘制他们合成之后的值的结果）。
+这几个步骤， 其中rAf回调函数每次都是发生在ui render之前执行的。ui render的执行是周期性的执行 一般是16.7ms 由浏览器来决定运行时机。也就是说当我们给元素style的属性中赋值的时候，多次重复的是不会让ui反复进行变化的，因为都是等一个帧之后在进行渲染（你在这个帧内反复操作的多次，也只会绘制他们合成之后的值的结果，**但是，有几种情况就不同了，参考下方的force layout**）。
 
 
 ## Force Layout
