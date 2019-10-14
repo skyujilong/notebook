@@ -62,3 +62,12 @@
 1. [人工智能科普文，写的超级棒，简单易懂！猴子都能看懂！](https://www.cnblogs.com/subconscious/p/4107357.html)
 1. [人工智能大神的博客](https://www.cnblogs.com/subconscious/)
 1. [webgl小人书](https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-fundamentals.html#toc)
+1. [dart event loop](https://blog.yuegs.com/2018/08/30/dart-event-loop/)
+
+## 备注
+
+### dart
+
+>根据 bug [9001](https://github.com/dart-lang/sdk/issues/9001) 和 [9002](https://github.com/dart-lang/sdk/issues/9002) ，第一次调用 scheduleMicrotask() 是会在 event queue 上创建一个任务。这个任务会创建 microtask queue，并且将要执行的 任务 入队。只要 microtask queue 至少有一个任务，后续调用 scheduleMicrotask() 时会正确的往 microtask queue 中填入任务。一旦 microtask queue 空了，那么下次调用 scheduleMicrotask() 时会重建 microtask queue。
+
+从这两个提案上看，以及开发人员来自google（大概率是chrome团队的人），可以看出来应该是普通的task任务上，包含有一个microtask queue，每个task都有的，执行的时候都是先执行当前的task之后执行该task上的microtask，之后执行完毕，才去执行另外的task任务。
