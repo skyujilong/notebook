@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>394. 字符串解码</title>
+</head>
+<body>
+    给定一个经过编码的字符串，返回它解码后的字符串。
+
+    编码规则为: k[encoded_string]，表示其中方括号内部的 encoded_string 正好重复 k 次。注意 k 保证为正整数。
+
+    你可以认为输入字符串总是有效的；输入字符串中没有额外的空格，且输入的方括号总是符合格式要求的。
+
+    此外，你可以认为原始数据不包含数字，所有的数字只表示重复的次数 k ，例如不会出现像 3a 或 2[4] 的输入。
+
+    <p>
+        输入：s = "3[a]2[bc]"
+        输出："aaabcbc"
+    </p>
+
+    <p>
+        输入：s = "3[a2[c]]"
+        输出："accaccacc"
+    </p>
+    <script>
+        /*
+            解决题目思路
+            2[ABCD] 方括号中间的内容，符合一个堆栈。先进后出，刚好能够把括号的内容予以匹配完毕。
+            eg: 2[a3[cd]];
+            先入栈[ 之后入栈[ , 然后 发现后边的是] 然后出栈之前的内容。 出两次，代表 最外侧的[]已经匹配好了。 在循环的过程中，我们能拿到里面的内容。
+        */
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var decodeString = function(s) {
+    return sum(s);
+};
+
+
+console.log(decodeString("10[leetcode]"));
+function sum(s){
+    if(s.indexOf('[') == -1){
+        return s;
+    }
+
+    let list = s.split('');
+    // 栈的标记， >0 代表有[没有匹配完全。 == 0 代表一个完整的[]匹配完毕了
+    let mark = 0;
+    // 最终的返回值
+    let result = '';
+    //[]中间的字符串
+    let subqueue = '';
+    //循环次数mark 3[a] 中的这个3
+    let times = 0;
+    for(let j = 0; j<list.length; j++){
+        //获取前方的数字
+        if(mark == 0 && /\d/.test(list[j])){
+            times = times * 10 + Number(list[j]);
+            subqueue = '';
+            continue;
+        }
+        // 匹配了[ +1 mark
+        if(list[j] == '['){
+            mark ++ ;
+            if(mark != 1){
+                //发现[中还有[ 予以记录，后边在递归他
+                subqueue += list[j];
+            }
+            continue;
+        }else if(list[j] == ']'){
+            // 匹配了 ] -1 mark
+            mark --;
+
+            if(mark == 0){
+                // 正好一组内容
+                let subResult = ''
+                for(let i = 0 ; i<times; i++){
+                    subResult += subqueue;
+                }
+                result += sum(subResult);
+                continue;
+            }else{
+                // 发现]中还有]的情况
+                subqueue += list[j];
+                continue;
+            }
+        }else{
+            //其他纯字母的情况，记录到 sub中
+            subqueue += list[j];
+        }
+
+        if(mark == 0){
+            //其他纯字母的情况下
+            result += list[j];
+        }
+    }
+    
+    return result;
+
+}
+
+    </script>
+
+</body>
+</html>
