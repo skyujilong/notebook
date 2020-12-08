@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>最长连续序列</title>
+</head>
+<body>
+    
+    <p>给定一个未排序的整数数组 nums ，找出数字连续的最长序列（不要求序列元素在原数组中连续）的长度。</p>
+
+ 
+
+<p>进阶：你可以设计并实现时间复杂度为 O(n) 的解决方案吗？</p>
+
+ 
+
+示例 1：<br>
+
+输入：nums = [100,4,200,1,3,2]<br>
+输出：4<br>
+解释：最长数字连续序列是 [1, 2, 3, 4]。它的长度为 4。<br>
+示例 2：<br>
+
+输入：nums = [0,3,7,2,5,8,4,6,0,1]<br>
+输出：9<br>
+ 
+
+提示：<br>
+
+0 <= nums.length <= 104<br>
+-109 <= nums[i] <= 109<br>
+
+
+<script>
+// 原理，O(n) 不能排序，才用空间换时间的方式。
+// 才用SET，循环NUM的时候，查询num 的左边有多少是连续的。 num -1 , num-2 查询到 就给当前的连续max +1 ，直到，查询不到为止。
+// 跳出来之后与之前的max进行比较，取大的。
+// 由于set能够直接查询到 具体有没有这个数字，因此直接就能知道你左右相邻的元素是否存在！
+var longestConsecutive = function(nums) {
+    let numSet = new Set();
+    for(let num of nums){
+        numSet.add(num);
+    }
+
+    let max = 0;
+    for(let num of nums){
+        let current = num - 1;
+        let currentMax = 1;
+        while(numSet.has(current)){
+            current --;
+            currentMax ++;
+        }
+        max = Math.max(currentMax,max);
+    }
+
+    return max;
+};
+
+
+</script>
+
+</body>
+</html>
