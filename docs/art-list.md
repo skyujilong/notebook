@@ -63,7 +63,8 @@
 1. [人工智能大神的博客](https://www.cnblogs.com/subconscious/)
 1. [webgl小人书](https://webglfundamentals.org/webgl/lessons/zh_cn/webgl-fundamentals.html#toc)
 1. [dart event loop](https://blog.yuegs.com/2018/08/30/dart-event-loop/)
-
+1. [flutter整体运行流程](https://zhuanlan.zhihu.com/p/63663295)
+1. [flutter十分钟入门教程](https://mp.weixin.qq.com/s?__biz=MzU3NTY3MTQzMg==&mid=2247484768&idx=1&sn=190659e7ffbae532ec3729c7ade027b9&chksm=fd1ed887ca695191a71d07c3c038be34a232b61a28a92f8c26e3708cdcdf7916ddd6f5f61467&scene=21#wechat_redirect)
 ## 备注
 
 ### dart
