@@ -40,6 +40,71 @@ class WidgetsFlutterBinding extends BindingBase
 
 初始化后`attachRootWidget`方法
 
+
+```dart
+  /// rootWidget 是 runApp传进来的Widget对象。 
+  void attachRootWidget(Widget rootWidget) {
+    _readyToProduceFrames = true;
+    // 注意这里。
+    _renderViewElement = RenderObjectToWidgetAdapter<RenderBox>(
+      container: renderView, // pipeline owner中 持有的RenderView 对象。
+      debugShortDescription: '[root]',
+      child: rootWidget,
+    ).attachToRenderTree(buildOwner!, renderViewElement as RenderObjectToWidgetElement<RenderBox>?;
+  }
+
+```
+
+
+RenderObjectToWidgetAdapter 对象。
+
+```dart
+  /// 其中 RenderObjectWidget 是抽象类，最终继承的是Widget 对象。
+  /// Widget中包含 createElemnt方法 需要子类进行实现。
+  /// abstract class RenderObjectWidget extends Widget
+  class RenderObjectToWidgetAdapter<T extends RenderObject> extends RenderObjectWidget {
+    RenderObjectToWidgetAdapter({
+      this.child,
+      required this.container,
+      this.debugShortDescription,
+    }) : super(key: GlobalObjectKey(container));
+
+    @override
+    RenderObjectToWidgetElement<T> createElement() => RenderObjectToWidgetElement<T>(this);
+
+    @override
+    RenderObjectWithChildMixin<T> createRenderObject(BuildContext context) => container;
+
+    // 注意这里， 在最后 attachRootWidget方法后调用该对象的  attachToRenderTree 方法，并且传入了BuildOwner对象，以及根element对象。
+    RenderObjectToWidgetElement<T> attachToRenderTree(BuildOwner owner, [  RenderObjectToWidgetElement<T>? element ]) {
+      /// 在element为空的情况下去创建这个element
+      if (element == null) {
+        owner.lockState(() {
+          element = createElement();
+          element!.assignOwner(owner);
+        });
+        owner.buildScope(element!, () {
+          /// 挂载插入child 会执行_rebuild方法，之后执行updateChild方法进行更新Element的child
+          element!.mount(null, null);
+        });
+        // This is most likely the first time the framework is ready to produce
+        // a frame. Ensure that we are asked for one.
+        SchedulerBinding.instance!.ensureVisualUpdate();
+      } else {
+        /// 标记当前的widget为新，并且标记 element 为脏需要进行更新操作
+        element._newWidget = this;
+        element.markNeedsBuild();
+      }
+      return element!;
+    }
+  }
+
+```
+
+后续详情看element章节 以及 buildOwner章节。
+
+
+
 `scheduleWarmUpFrame` 尽快进行首次渲染操作。 而不是等待Vsync信号。
 
 
