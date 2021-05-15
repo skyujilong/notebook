@@ -16,7 +16,7 @@ class WidgetsFlutterBinding extends BindingBase
         PaintingBinding, //  图片缓存相关
         SemanticsBinding,
         RendererBinding, // 渲染树相关，最后会给引擎进行渲染 PipelineOwner【重点 处理RenderObjectTree 与 RendererBinding之间的关系（脏RenderObject 渲染）】,同时给window上挂在一些对象。
-        WidgetsBinding { //WidgetsBinding中最重要的是初始化 BuildOwner 用来管理Element的状态变化
+        WidgetsBinding { //WidgetsBinding中最重要的是初始化 BuildOwner 用来管理Element的状态变化。
   /// Returns an instance of the [WidgetsBinding], creating and
   /// initializing it if necessary. If one is created, it will be a
   /// [WidgetsFlutterBinding]. If one was previously initialized, then
@@ -83,6 +83,7 @@ RenderObjectToWidgetAdapter 对象。
           element = createElement();
           element!.assignOwner(owner);
         });
+        /// buildScope方法，会将__dirtyElementList中的内容都flush出去
         owner.buildScope(element!, () {
           /// 挂载插入child 会执行_rebuild方法，之后执行updateChild方法进行更新Element的child
           element!.mount(null, null);
@@ -106,9 +107,4 @@ RenderObjectToWidgetAdapter 对象。
 
 
 `scheduleWarmUpFrame` 尽快进行首次渲染操作。 而不是等待Vsync信号。
-
-
-
-
-
 
