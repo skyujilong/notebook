@@ -80,6 +80,7 @@ RenderObjectToWidgetAdapter 对象。
       /// 在element为空的情况下去创建这个element
       if (element == null) {
         owner.lockState(() {
+          /// 注意这里的 RenderObjectToWidgetAdapter 对象底层继承的Widget对象。 createElement方法会去调用 不同类型的widget 对应的element对象。之后这个element对象中会去反过来调用widget.build方法，并且将自己传递给widget.build方法。所以这里的BuildContext对象其实是当前的Element对象。
           element = createElement();
           element!.assignOwner(owner);
         });

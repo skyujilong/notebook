@@ -94,6 +94,9 @@ class RenderObjectToWidgetElement<T extends RenderObject> extends RootRenderObje
 
 ```
 
+attachToRenderTree方法中调用了mount方法，mount调用了rebuild方法。
+
+
 ### Element源码
 
 ```dart
@@ -151,27 +154,7 @@ abstract class Element extends DiagnosticableTree implements BuildContext {
     final Element newChild;
     if (child != null) {
       bool hasSameSuperclass = true;
-      // When the type of a widget is changed between Stateful and Stateless via
-      // hot reload, the element tree will end up in a partially invalid state.
-      // That is, if the widget was a StatefulWidget and is now a StatelessWidget,
-      // then the element tree currently contains a StatefulElement that is incorrectly
-      // referencing a StatelessWidget (and likewise with StatelessElement).
-      //
-      // To avoid crashing due to type errors, we need to gently guide the invalid
-      // element out of the tree. To do so, we ensure that the `hasSameSuperclass` condition
-      // returns false which prevents us from trying to update the existing element
-      // incorrectly.
-      //
-      // For the case where the widget becomes Stateful, we also need to avoid
-      // accessing `StatelessElement.widget` as the cast on the getter will
-      // cause a type error to be thrown. Here we avoid that by short-circuiting
-      // the `Widget.canUpdate` check once `hasSameSuperclass` is false.
-      assert(() {
-        final int oldElementClass = Element._debugConcreteSubtype(child);
-        final int newWidgetClass = Widget._debugConcreteSubtype(newWidget);
-        hasSameSuperclass = oldElementClass == newWidgetClass;
-        return true;
-      }());
+      
       if (hasSameSuperclass && child.widget == newWidget) {
         if (child.slot != newSlot)
           updateSlotForChild(child, newSlot);
@@ -180,30 +163,14 @@ abstract class Element extends DiagnosticableTree implements BuildContext {
         if (child.slot != newSlot)
           updateSlotForChild(child, newSlot);
         child.update(newWidget);
-        assert(child.widget == newWidget);
-        assert(() {
-          child.owner!._debugElementWasRebuilt(child);
-          return true;
-        }());
         newChild = child;
       } else {
         deactivateChild(child);
-        assert(child._parent == null);
         newChild = inflateWidget(newWidget, newSlot);
       }
     } else {
       newChild = inflateWidget(newWidget, newSlot);
     }
-
-    assert(() {
-      if (child != null)
-        _debugRemoveGlobalKeyReservation(child);
-      final Key? key = newWidget.key;
-      if (key is GlobalKey) {
-        key._debugReserveFor(this, newChild);
-      }
-      return true;
-    }());
 
     return newChild;
   }
@@ -233,11 +200,6 @@ abstract class Element extends DiagnosticableTree implements BuildContext {
     // forgotten children still represent global key duplications if the element
     // never updates (the forgotten children are not removed from the tree
     // until the call to update happens)
-    assert(() {
-      _debugForgottenChildrenWithGlobalKey.forEach(_debugRemoveGlobalKeyReservation);
-      _debugForgottenChildrenWithGlobalKey.clear();
-      return true;
-    }());
     _widget = newWidget;
   }    
   
@@ -285,3 +247,12 @@ abstract class Element extends DiagnosticableTree implements BuildContext {
 
 
 ```
+
+
+Element 核心方法：
+
+1. updateChild 更新自组件
+2. update 更新自己的widget
+3. markNeedsBuild 给buildOwner的dirtyElement添加自己，用来等待更新。
+4. rebuild engine drawFrame的时候，执行该方法。更新element
+5. performRebuild 由子类 进行具体的build操作
