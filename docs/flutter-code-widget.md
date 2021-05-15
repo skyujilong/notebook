@@ -14,6 +14,9 @@ abstract class StatelessWidget extends Widget {
 }
 ```
 
+**Element 中的 updateChild方法会调用 inflateWidget方法，在这个方法中会进行调用Widget的 createElement方法**
+
+
 ## StatelessElement 对象
 
 ```dart 
@@ -112,3 +115,64 @@ abstract class ComponentElement extends Element {
 
 ## StateFullWidget
 
+```dart
+abstract class StatefulWidget extends Widget {
+    const StatefulWidget({ Key? key }) : super(key: key);
+
+    @override
+    StatefulElement createElement() => StatefulElement(this);
+
+    @protected
+    @factory
+    State createState(); 
+}
+
+```
+
+## StatefulElement
+
+```dart
+class StatefulElement extends ComponentElement {
+    /// 注意这里，widget.createState() 相当于继承的是State的对象的类了
+  StatefulElement(StatefulWidget widget)
+      : state = widget.createState(),
+        super(widget) {
+    state._element = this;
+    state._widget = widget;
+  }
+
+  @override
+  Widget build() => state.build(this);
+}
+```
+
+## State 对象
+
+```dart
+abstract class State<T extends StatefulWidget> with Diagnosticable {
+    // 核心方法， 持有element
+  StatefulElement? _element;
+  @protected  
+  void setState(VoidCallback fn) {
+    
+      if (_debugLifecycleState == _StateLifecycle.created && !mounted) {
+        throw FlutterError.fromParts(<DiagnosticsNode>[
+          ErrorSummary('setState() called in constructor: $this'),
+          ErrorHint(
+            'This happens when you call setState() on a State object for a widget that '
+            "hasn't been inserted into the widget tree yet. It is not necessary to call "
+            'setState() in the constructor, since the state is already assumed to be dirty '
+            'when it is initially created.'
+          ),
+        ]);
+      }
+      return true;
+    }());
+    final dynamic result = fn() as dynamic;
+    
+    _element!.markNeedsBuild();
+  }
+}
+```
+**核心**
+持有 element 对象。 在调用setState的时候，将element标记为dirty

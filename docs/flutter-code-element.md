@@ -215,7 +215,7 @@ abstract class Element extends DiagnosticableTree implements BuildContext {
         return updatedChild;
         }
     }
-
+    /// 调用的widget的createElement方法
     final Element newChild = newWidget.createElement();
     newChild.mount(this, newSlot);
     return newChild;
