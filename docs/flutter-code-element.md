@@ -251,7 +251,7 @@ abstract class Element extends DiagnosticableTree implements BuildContext {
 
 Element 核心方法：
 
-1. updateChild 更新自组件
+1. updateChild 更新子组件
 2. update 更新自己的widget
 3. markNeedsBuild 给buildOwner的dirtyElement添加自己，用来等待更新。
 4. rebuild engine drawFrame的时候，执行该方法。更新element
