@@ -62,7 +62,7 @@ const newSandBoxWindow = new SandboxWindow({}, context, sandboxGlobal)
 const codeStr = 'var test = 1;'
 
 /// 分析一下，首先是闭包的执行，将变量进行隔离，之后bind方法 将上面的newSandBoxWindow，绑定到当前的this上，
-/// 然后 with 使的 code的作用域 也是global，也就是newSandBoxWindow上，
+/// 然后 with(newSandBoxWindow) 这样 with内的代码可以直接访问 newSandBoxWindow上的属性与方法，eg: with({a:123}){console.log(a)} 这里输出的是123.
 /// self 作为自己的作用域的引用。
 
 /// 这样 codeStr中的test = 1 其实是把内容挂在到了 newSandBoxWindow上了。
