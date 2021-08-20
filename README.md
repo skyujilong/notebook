@@ -41,3 +41,4 @@
 1. [javascriptBridge core](https://github.com/skyujilong/notebook/blob/master/docs/javascriptBridge.md)
 1. [web worker性能调查](https://github.com/skyujilong/notebook/blob/master/docs/worker.md)
 1. [v8 gc](https://github.com/skyujilong/notebook/blob/master/docs/v8-gc.md)
+1. [js沙箱环境——基于proxy_iframe模式的核心代码分析](https://github.com/skyujilong/notebook/blob/master/docs/sandbox-core.md)
