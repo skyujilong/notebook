@@ -20,8 +20,8 @@
 **注：这中间可能会碰到几个有问题的地方，比如说后端服务的session的问题等等，还有SEO相关问题。我这里提出来的这套方案，仅仅适用于，向跨域服务器提交内容，与获得响应（callback function），具体这套跨域方案的应用还需要各位应对自己的需求，去判断是否使用这套东西。比如你们是单独服务处理账户，那么恭喜你们，在用这套方案的时候会简单的多，如果是基于session的确实会有一些问题，最后感谢群友Carson提出来的这些问题。**
 
 ## Ajax跨域方案
-1. 服务器端设置Access-Control-Allow-Origin
-2. 如果需要带有cookie，需要服务器设置```Access-Control-Allow-Credentials: true```，同时，请求ajax需要在open与send方法之间设置```xhr.withCredentials = true```
+1. 服务器端设置Access-Control-Allow-Origin，如果带有cookie 需要将Access-Control-Allow-Origin的*更改为请求过来的origin。 如果是应对多域名下的跨域，建议拿到origin后，返回Access-Control-Allow-Origin对应的origin
+2. 如果需要带有cookie，需要服务器设置```Access-Control-Allow-Credentials: true```，同时，请求ajax需要在open与send方法之间设置```xhr.withCredentials = true``` fetch的时候需要mode:'cors'以及credentials: "include"。
 
 
 ## IE Ajax跨域的问题描述(目前测试 没有发生下列问题，后续关注一下)
