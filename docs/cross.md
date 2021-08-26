@@ -22,7 +22,7 @@
 ## Ajax跨域方案
 1. 服务器端设置Access-Control-Allow-Origin，如果带有cookie 需要将Access-Control-Allow-Origin的*更改为请求过来的origin。 如果是应对多域名下的跨域，建议拿到origin后，返回Access-Control-Allow-Origin对应的origin
 2. 如果需要带有cookie，需要服务器设置```Access-Control-Allow-Credentials: true```，同时，请求ajax需要在open与send方法之间设置```xhr.withCredentials = true``` fetch的时候需要mode:'cors'以及credentials: "include"。
-
+3. 如果是复杂请求。请求头带有的东西比较多，会发送OPTIONS请求，得到服务器的准许，才能够继续发送请求。具体的请参照https://zhuanlan.zhihu.com/p/53996160
 
 ## IE Ajax跨域的问题描述(目前测试 没有发生下列问题，后续关注一下)
 ie的问题是在于低版本，9以及以下版本，在服务器端返回的respones
