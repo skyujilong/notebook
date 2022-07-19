@@ -5,6 +5,24 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Vite + Vue + TS</title>
+    <script>
+      history.scrollRestoration = "manual";
+
+      function rem() {
+        var t = 100,
+          o = 750,
+          e = document.documentElement.clientWidth || window.innerWidth,
+          n = Math.max(Math.min(e, 480), 320),
+          h = 50;
+        320 >= n && (h = Math.floor((n / o) * t * 0.99)),
+          n > 320 && 362 >= n && (h = Math.floor((n / o) * t * 1)),
+          n > 362 && 375 >= n && (h = Math.floor((n / o) * t * 1)),
+          n > 375 && (h = Math.floor((n / o) * t * 0.97)),
+          (document.querySelector("html").style.fontSize = h + "px");
+      }
+      rem();
+      window.addEventListener('resize', rem)
+    </script>
   </head>
   <body>
     <div id="app"></div>
