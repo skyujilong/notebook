@@ -3,18 +3,27 @@
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 import HelloWorld from './components/HelloWorld.vue'
 import Three1 from "./components/Three1.vue";
+import Three2 from './components/Three2.vue';
+import TreeLine from "./components/TreeLine.vue";
+import ThreeLoadGltf from "./components/ThreeLoadGltf.vue";
+
 import { ref,defineComponent,defineAsyncComponent } from "vue";
 
 const components = ref(new Map<string,any>());
 
 components.value.set('three-1',defineComponent(Three1));
-
+components.value.set('three-2',defineComponent(Three2));
+components.value.set('tree-line',defineComponent(TreeLine));
+components.value.set('three-load-gltf',defineComponent(ThreeLoadGltf));
 // components.value.set('three-1',()=> defineAsyncComponent(()=>import("./components/Three1.vue")));
 
-let showTemplateName = ref('');
+let showTemplateName = ref('three-load-gltf');
 
 let list:string[] = [
-  'three-1'
+  'three-1',
+  'three-2',
+  'tree-line',
+  'three-load-gltf'
 ];
 
 function onClick(val:string){
@@ -24,8 +33,8 @@ function onClick(val:string){
 </script>
 
 <template>
-<ul v-for="item in list" :key="item">
-  <li @click="onClick(item)">{{item}}</li>
+<ul class="menu">
+  <li v-for="item in list" :key="item"  @click="onClick(item)">{{item}}</li>
 </ul>
 <!-- 动态方案需要采用components.get方案来获取，这个定义了一个Map类型。 -->
 <component v-if="showTemplateName != ''" :is="components.get(showTemplateName)"></component>
@@ -42,5 +51,14 @@ function onClick(val:string){
 }
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
+}
+.menu{
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background: black;
+  opacity: 0.3;
+  color: #fff;
 }
 </style>
