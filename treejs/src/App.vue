@@ -7,6 +7,8 @@ import Three2 from './components/Three2.vue';
 import TreeLine from "./components/TreeLine.vue";
 import ThreeLoadGltf from "./components/ThreeLoadGltf.vue";
 import ThreeGeometry from "./components/ThreeGeometry.vue";
+import ThreeTopPoint from "./components/ThreeTopPoint.vue";
+
 import { ref,defineComponent,defineAsyncComponent } from "vue";
 
 const components = ref(new Map<string,any>());
@@ -16,6 +18,7 @@ components.value.set('three-2',defineComponent(Three2));
 components.value.set('tree-line',defineComponent(TreeLine));
 components.value.set('three-load-gltf',defineComponent(ThreeLoadGltf));
 components.value.set('three-geometry',defineComponent(ThreeGeometry));
+components.value.set('three-top-point',defineComponent(ThreeTopPoint));
 // components.value.set('three-1',()=> defineAsyncComponent(()=>import("./components/Three1.vue")));
 
 let showTemplateName = ref('three-load-gltf');
@@ -25,7 +28,8 @@ let list:string[] = [
   'three-2',
   'tree-line',
   'three-load-gltf',
-  'three-geometry'
+  'three-geometry',
+  'three-top-point'
 ];
 
 function onClick(val:string){
@@ -62,5 +66,7 @@ function onClick(val:string){
   background:  #fff;
   opacity: 0.8;
   color: black;
+  max-height: 150px;
+  overflow-y: scroll;
 }
 </style>

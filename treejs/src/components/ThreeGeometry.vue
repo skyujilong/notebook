@@ -78,9 +78,26 @@ function initGeometrys(scene:THREE.Scene){
 
     /// 圆珠体
     var geometry3 = new THREE.CylinderGeometry(50, 50, 100, 25);
-    var material3 = new THREE.MeshLambertMaterial({
-      color: 0xffff00
-    });
+    // 纯色
+    // var material3 = new THREE.MeshLambertMaterial({
+    //   color: 0xffff00
+    // });
+
+    // 半透明 MeshLambertMaterial 漫反射皮肤
+    // var material3=new THREE.MeshLambertMaterial({
+    //   wireframe:true, // 渲染成线框。 估计是debug用的。都变成三角了。默认false
+    //   color:0xff0000,
+    //   opacity:0.8, // transparent true的时候生效，半透明到什么程度 0-1之间。
+    //   transparent:true // 是否开始透明效果 默认false
+    // });
+    
+    // 高光反射皮肤
+    var material3=new THREE.MeshPhongMaterial({
+      color:0x0000ff,
+      specular:0x4488ee,
+      shininess:12
+    });//材质对象
+
     const mesh3 = new THREE.Mesh(geometry3,material3);
     /// 设置坐标系位置
     mesh3.position.set(80,80,80);
