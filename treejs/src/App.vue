@@ -6,7 +6,7 @@ import Three1 from "./components/Three1.vue";
 import Three2 from './components/Three2.vue';
 import TreeLine from "./components/TreeLine.vue";
 import ThreeLoadGltf from "./components/ThreeLoadGltf.vue";
-
+import ThreeGeometry from "./components/ThreeGeometry.vue";
 import { ref,defineComponent,defineAsyncComponent } from "vue";
 
 const components = ref(new Map<string,any>());
@@ -15,6 +15,7 @@ components.value.set('three-1',defineComponent(Three1));
 components.value.set('three-2',defineComponent(Three2));
 components.value.set('tree-line',defineComponent(TreeLine));
 components.value.set('three-load-gltf',defineComponent(ThreeLoadGltf));
+components.value.set('three-geometry',defineComponent(ThreeGeometry));
 // components.value.set('three-1',()=> defineAsyncComponent(()=>import("./components/Three1.vue")));
 
 let showTemplateName = ref('three-load-gltf');
@@ -23,7 +24,8 @@ let list:string[] = [
   'three-1',
   'three-2',
   'tree-line',
-  'three-load-gltf'
+  'three-load-gltf',
+  'three-geometry'
 ];
 
 function onClick(val:string){
@@ -57,8 +59,8 @@ function onClick(val:string){
   z-index: 1;
   top: 0;
   left: 0;
-  background: black;
-  opacity: 0.3;
-  color: #fff;
+  background:  #fff;
+  opacity: 0.8;
+  color: black;
 }
 </style>
