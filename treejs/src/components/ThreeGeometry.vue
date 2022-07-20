@@ -76,6 +76,16 @@ function initGeometrys(scene:THREE.Scene){
     mesh2.translateZ(40);
     scene.add(mesh2);
 
+    /// 圆珠体
+    var geometry3 = new THREE.CylinderGeometry(50, 50, 100, 25);
+    var material3 = new THREE.MeshLambertMaterial({
+      color: 0xffff00
+    });
+    const mesh3 = new THREE.Mesh(geometry3,material3);
+    /// 设置坐标系位置
+    mesh3.position.set(80,80,80);
+    /// 两种方案设置坐标系的位置。 transform 矩阵变换 以及 直接position.set
+    scene.add(mesh3);
 }
 
 
