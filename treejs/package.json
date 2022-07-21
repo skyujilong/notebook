@@ -9,7 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mfelibs/base-css": "^2.0.0",
     "@types/three": "^0.141.0",
     "three": "^0.142.0",
     "vue": "^3.2.37"
