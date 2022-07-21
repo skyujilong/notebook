@@ -15,8 +15,12 @@ onMounted(()=>{
 
   const scene = new THREE.Scene();
   initLight(scene);
+  // buffer 类型，该类型一经申请，长度就固定了无法再增加长度了。
   var geometry = new THREE.BufferGeometry();
-  //类型数组创建顶点数据
+
+  // 定点，数据分成两部分。 定点坐标，以及定点颜色。
+
+  // 类型数组创建顶点数据
   var vertices = new Float32Array([
     /// 描述了第一个三角形
     0, 0, 0, //顶点1坐标
@@ -27,9 +31,21 @@ onMounted(()=>{
     0, 0, 100, //顶点5坐标
     50, 0, 10, //顶点6坐标
     /// 描述了第三个三角形
-    0, 10, 20, //顶点7坐标
-    10, 0, 100, //顶点8坐标
-    50, 0, 20, //顶点9坐标
+    // 0, 10, 20, //顶点7坐标
+    // 10, 0, 100, //顶点8坐标
+    // 50, 0, 20, //顶点9坐标
+  ]);
+
+  // 定点颜色
+
+  const colors = new Float32Array([
+    1, 0, 0, //顶点1颜色
+    0, 1, 0, //顶点2颜色
+    0, 0, 1, //顶点3颜色
+
+    1, 1, 0, //顶点4颜色
+    0, 1, 1, //顶点5颜色
+    1, 0, 1, //顶点6颜色
   ]);
 
   // 创建属性缓冲区对象
@@ -37,23 +53,26 @@ onMounted(()=>{
   var attribue = new THREE.BufferAttribute(vertices, 3);    
   // 设置几何体attributes属性的位置属性
   geometry.attributes.position = attribue;
-
+  //颜色赋值
+  geometry.attributes.color = new THREE.BufferAttribute(colors,3);
   // 三角面(网格)渲染模式
-  // var material = new THREE.MeshBasicMaterial({
-  //   color: 0x0000ff, //三角面颜色
-  //   side: THREE.DoubleSide //两面可见
-  // }); //材质对象
-  // const mesh = new THREE.Mesh(geometry,material);
-  // scene.add(mesh);
+  var material = new THREE.MeshBasicMaterial({
+    // color: 0x0000ff, //三角面颜色
+    vertexColors: true, // 根据顶点的颜色，会进行插值计算填充。
+    side: THREE.DoubleSide //两面可见
+  }); //材质对象
+  const mesh = new THREE.Mesh(geometry,material);
+  scene.add(mesh);
   
   
   // 点渲染模式
-  var material = new THREE.PointsMaterial({
-    color: 0xff0000,
-    size: 10.0 //点对象像素尺寸
-  }); //材质对象
-  var points = new THREE.Points(geometry, material);
-  scene.add(points);
+  // var material = new THREE.PointsMaterial({
+  //   // color: 0xff0000,
+  //   vertexColors: true, //以顶点颜色为准
+  //   size: 10.0 //点对象像素尺寸
+  // }); //材质对象
+  // var points = new THREE.Points(geometry, material);
+  // scene.add(points);
 
   
 
