@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import '@mfelibs/base-css'
+import "./assets/css/reset.css";
 import "./style.css";
 import App from './App.vue'
 

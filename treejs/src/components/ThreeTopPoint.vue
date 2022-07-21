@@ -3,6 +3,8 @@
 </template>
 
 <script lang="ts" setup>
+
+/// 顶点以及顶点颜色。 顶点位置。
 import {onMounted,ref} from 'vue'
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";

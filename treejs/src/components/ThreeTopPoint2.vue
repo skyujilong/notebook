@@ -3,6 +3,9 @@
 </template>
 
 <script lang="ts" setup>
+/// 顶点增加向量信息 ，配置可反射的皮肤，能有阴影效果。
+
+
 import {onMounted,ref} from 'vue'
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
