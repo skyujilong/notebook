@@ -7,11 +7,6 @@
   resolved "https://registry.npmmirror.com/@babel/parser/-/parser-7.18.9.tgz#f2dde0c682ccc264a9a8595efd030a5cc8fd2539"
   integrity sha512-9uJveS9eY9DJ0t64YbIBZICtJy8a5QrDEVdiLCG97fVLpDTpGX7t8mMSb6OWw6Lrnjqj4O8zwjELX3dhoMgiBg==
 
-"@mfelibs/base-css@^2.0.0":
-  version "2.2.5"
-  resolved "http://registry.cnpm.sina.com.cn/@mfelibs/base-css/download/@mfelibs/base-css-2.2.5.tgz#404ddc1d9ca1adae7398b955cd298eb890c8e7af"
-  integrity sha1-QE3cHZyhra5zmLlVzSmOuJDI568=
-
 "@types/three@^0.141.0":
   version "0.141.0"
   resolved "https://registry.npmmirror.com/@types/three/-/three-0.141.0.tgz#d9d81a54b28ebc2a56931dfd4d9c54d25c20d6c8"

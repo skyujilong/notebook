@@ -22,6 +22,57 @@ onMounted(()=>{
     render.render(scene,camera);
   });
 
+  normalMakVertices(scene);
+
+  render.render(scene,camera);
+
+  // mesh1.position.set(0,0,0);
+
+  // const geometry1 = new THREE.BufferGeometry();
+
+  
+
+});
+
+function normalMakVertices(scene:THREE.Scene){
+  /// 空白的几何体
+  const geometry = new THREE.BufferGeometry();
+  // z轴都是0，所以 这里用两个三角形 展示了一个正方形。
+  const vertices = new Float32Array([
+    0,0,0,
+    80,0,0,
+    80,80,0,
+
+    0,0,0,
+    80,80,0,
+    0,80,0
+  ]);
+
+  geometry.attributes.position = new THREE.BufferAttribute(vertices,3);
+
+  var normals = new Float32Array([
+    0, 0, 1, //顶点1法向量
+    0, 0, 1, //顶点2法向量
+    0, 0, 1, //顶点3法向量
+
+    0, 0, 1, //顶点4法向量
+    0, 0, 1, //顶点5法向量
+    0, 0, 1, //顶点6法向量
+  ]);
+
+  geometry.attributes.normal = new THREE.BufferAttribute(normals,3);
+
+    const material = new THREE.MeshPhongMaterial({
+      color:0x00ffff,
+      side: THREE.DoubleSide
+    });
+
+  const mesh = new THREE.Mesh(geometry,material);
+
+  scene.add(mesh);
+}
+
+function makeCopyVertices(scene:THREE.Scene){
   ///两个三角形组成一个矩形。
 
   /// 定义一个 形状
@@ -37,15 +88,6 @@ onMounted(()=>{
   /// 将buffer顶点数据赋值过来。
   geometry.attributes.position = new THREE.BufferAttribute(vertices,3);
 
-  // Uint16Array类型数组创建顶点索引数据
-
-  let indexs = new Uint16Array([
-    /// 数组的下标代表的是 vertices 顶点数组中对应的 顶点
-    0,1,2, /// 0 代表顶点(0,0,0) , 1 代表 (80,0,0), 2代表 (80,80,80)
-    0,2,3
-  ]);
-
-  geometry.attributes.index = new THREE.BufferAttribute(indexs,1);
 
 
   var normals = new Float32Array([
@@ -62,19 +104,22 @@ onMounted(()=>{
     side: THREE.DoubleSide
   });
 
+
+  
+  // Uint16Array类型数组创建顶点索引数据
+
+  let indexs = new Uint16Array([
+    /// 数组的下标代表的是 vertices 顶点数组中对应的 顶点
+    0,1,2, /// 0 代表顶点(0,0,0) , 1 代表 (80,0,0), 2代表 (80,80,80)
+    0,2,3
+  ]);
+
+  geometry.attributes.index = new THREE.BufferAttribute(indexs,1);
+
   const mesh1 = new THREE.Mesh(geometry, material);
 
   scene.add(mesh1);
-
-  render.render(scene,camera);
-
-  // mesh1.position.set(0,0,0);
-
-  // const geometry1 = new THREE.BufferGeometry();
-
-  
-
-});
+}
 
 
 function initCamera(){
