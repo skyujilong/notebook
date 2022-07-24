@@ -24,6 +24,8 @@ onMounted(()=>{
 
   normalMakVertices(scene);
 
+  makeCopyVertices(scene);
+
   render.render(scene,camera);
 
   // mesh1.position.set(0,0,0);
@@ -40,12 +42,12 @@ function normalMakVertices(scene:THREE.Scene){
   // z轴都是0，所以 这里用两个三角形 展示了一个正方形。
   const vertices = new Float32Array([
     0,0,0,
-    80,0,0,
-    80,80,0,
+    40,0,0,
+    40,40,0,
 
     0,0,0,
-    80,80,0,
-    0,80,0
+    40,40,0,
+    0,40,0
   ]);
 
   geometry.attributes.position = new THREE.BufferAttribute(vertices,3);
@@ -69,6 +71,8 @@ function normalMakVertices(scene:THREE.Scene){
 
   const mesh = new THREE.Mesh(geometry,material);
 
+  mesh.translateY(45);
+
   scene.add(mesh);
 }
 
@@ -81,9 +85,9 @@ function makeCopyVertices(scene:THREE.Scene){
   /// buffer 数据 ，3个一组描述一个顶点坐标信息。
   const vertices = new Float32Array([
     0, 0, 0, //顶点1坐标
-    80, 0, 0, //顶点2坐标
-    80, 80, 0, //顶点3坐标
-    0, 80, 0, //顶点4坐标
+    40, 0, 0, //顶点2坐标
+    40, 40, 0, //顶点3坐标
+    0, 40, 0, //顶点4坐标
   ]);
   /// 将buffer顶点数据赋值过来。
   geometry.attributes.position = new THREE.BufferAttribute(vertices,3);
@@ -113,8 +117,8 @@ function makeCopyVertices(scene:THREE.Scene){
     0,1,2, /// 0 代表顶点(0,0,0) , 1 代表 (80,0,0), 2代表 (80,80,80)
     0,2,3
   ]);
-
-  geometry.attributes.index = new THREE.BufferAttribute(indexs,1);
+  /// 这里是geometry的index属性。 设置后，将顶点坐标进行复用。
+  geometry.index = new THREE.BufferAttribute(indexs,1);
 
   const mesh1 = new THREE.Mesh(geometry, material);
 
