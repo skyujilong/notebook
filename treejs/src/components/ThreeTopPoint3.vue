@@ -28,12 +28,6 @@ onMounted(()=>{
 
   render.render(scene,camera);
 
-  // mesh1.position.set(0,0,0);
-
-  // const geometry1 = new THREE.BufferGeometry();
-
-  
-
 });
 
 function normalMakVertices(scene:THREE.Scene){
@@ -119,6 +113,12 @@ function makeCopyVertices(scene:THREE.Scene){
   ]);
   /// 这里是geometry的index属性。 设置后，将顶点坐标进行复用。
   geometry.index = new THREE.BufferAttribute(indexs,1);
+
+  console.log('几何体引用的顶点数据为geometry.index', geometry.index);
+
+  console.log('几何体包含的顶点数据集有geometry.attributes.position：',geometry.attributes.position);
+
+  // console.log('几何体的向量数据为：', geometry.)
 
   const mesh1 = new THREE.Mesh(geometry, material);
 
