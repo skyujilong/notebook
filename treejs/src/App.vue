@@ -11,6 +11,7 @@ import ThreeTopPoint from "./components/ThreeTopPoint.vue";
 import ThreeTopPoint2 from "./components/ThreeTopPoint2.vue";
 import ThreeTopPoint3 from "./components/ThreeTopPoint3.vue";
 import ThreeFaces from "./components/ThreeFaces.vue";
+import Shadow from "./components/Shadow.vue";
 import { ref,defineComponent,defineAsyncComponent } from "vue";
 
 const components = ref(new Map<string,any>());
@@ -24,6 +25,8 @@ components.value.set('three-top-point',defineComponent(ThreeTopPoint));
 components.value.set('three-top-point2',defineComponent(ThreeTopPoint2));
 components.value.set('three-top-point3',defineComponent(ThreeTopPoint3));
 components.value.set('three-faces',defineComponent(ThreeFaces));
+components.value.set('shadow',defineComponent(Shadow));
+
 // components.value.set('three-1',()=> defineAsyncComponent(()=>import("./components/Three1.vue")));
 
 let showTemplateName = ref('three-load-gltf');
@@ -37,7 +40,8 @@ let list:string[] = [
   'three-top-point',
   'three-top-point2',
   'three-top-point3',
-  'three-faces'
+  'three-faces',
+  'shadow'
 ];
 
 function onClick(val:string){
