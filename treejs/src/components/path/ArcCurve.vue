@@ -8,7 +8,6 @@ import {onMounted,ref} from 'vue'
 import * as THREE from "three";
 
 import { initHelper,initRender,initCamera  } from "../../util/index";
-import { CurvePath } from 'three';
 
 const sceneEl = ref<HTMLDivElement>();
 
@@ -85,12 +84,12 @@ onMounted(()=>{
 
   let R = 80;//圆弧半径
 
-  let arc1 = new THREE.ArcCurve(0,0,R,0,Math.PI,false);
+  let arc1 = new THREE.ArcCurve(0,0,R,0,Math.PI,true);
 
   // geometry3_1.setFromPoints(arc1.getPoints(2000));
-  let line3_1 = new THREE.LineCurve(new THREE.Vector2(-R,0), new THREE.Vector2(-R, 10));
+  let line3_1 = new THREE.LineCurve(new THREE.Vector2(-R, 100),new THREE.Vector2(-R,0));
 
-  let line3_2 = new THREE.LineCurve(new THREE.Vector2(R,0), new THREE.Vector2(R, 10));
+  let line3_2 = new THREE.LineCurve(new THREE.Vector2(R,0), new THREE.Vector2(R, 100));
 
   const path = new THREE.CurvePath<THREE.Vector2>();
 

@@ -14,6 +14,7 @@ import ThreeFaces from "./components/ThreeFaces.vue";
 import Shadow from "./components/Shadow.vue";
 import Position from "./components/Position.vue";
 import ArcCurve from "./components/path/ArcCurve.vue";
+import TubeCurve from "./components/path/TubeCurve.vue";
 
 import { ref,defineComponent,defineAsyncComponent } from "vue";
 
@@ -31,6 +32,7 @@ components.value.set('three-faces',defineComponent(ThreeFaces));
 components.value.set('shadow',defineComponent(Shadow));
 components.value.set('position',defineComponent(Position));
 components.value.set('arc-curve',defineComponent(ArcCurve));
+components.value.set('tube-curve',defineComponent(TubeCurve));
 
 // components.value.set('three-1',()=> defineAsyncComponent(()=>import("./components/Three1.vue")));
 
@@ -48,7 +50,8 @@ let list:string[] = [
   'three-faces',
   'shadow',
   'position',
-  'arc-curve'
+  'arc-curve',
+  'tube-curve'
 ];
 
 function onClick(val:string){
