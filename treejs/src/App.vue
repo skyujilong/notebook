@@ -16,6 +16,7 @@ import Position from "./components/Position.vue";
 import ArcCurve from "./components/path/ArcCurve.vue";
 import TubeCurve from "./components/path/TubeCurve.vue";
 import Lathe from "./components/path/Lathe.vue";
+import DomEvent from "./components/DomEvent.vue";
 
 import { ref,defineComponent,defineAsyncComponent } from "vue";
 
@@ -35,6 +36,7 @@ components.value.set('position',defineComponent(Position));
 components.value.set('arc-curve',defineComponent(ArcCurve));
 components.value.set('tube-curve',defineComponent(TubeCurve));
 components.value.set('lathe-curve',defineComponent(Lathe));
+components.value.set('dom-event',defineComponent(DomEvent));
 
 // components.value.set('three-1',()=> defineAsyncComponent(()=>import("./components/Three1.vue")));
 
@@ -54,7 +56,8 @@ let list:string[] = [
   'position',
   'arc-curve',
   'tube-curve',
-  'lathe-curve'
+  'lathe-curve',
+  'dom-event'
 ];
 
 function onClick(val:string){
