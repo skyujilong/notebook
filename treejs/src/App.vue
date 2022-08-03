@@ -17,7 +17,7 @@ import ArcCurve from "./components/path/ArcCurve.vue";
 import TubeCurve from "./components/path/TubeCurve.vue";
 import Lathe from "./components/path/Lathe.vue";
 import DomEvent from "./components/DomEvent.vue";
-
+import Earth from "./components/texture/Earth.vue";
 import { ref,defineComponent,defineAsyncComponent } from "vue";
 
 const components = ref(new Map<string,any>());
@@ -37,7 +37,7 @@ components.value.set('arc-curve',defineComponent(ArcCurve));
 components.value.set('tube-curve',defineComponent(TubeCurve));
 components.value.set('lathe-curve',defineComponent(Lathe));
 components.value.set('dom-event',defineComponent(DomEvent));
-
+components.value.set('earth',defineComponent(Earth));
 // components.value.set('three-1',()=> defineAsyncComponent(()=>import("./components/Three1.vue")));
 
 let showTemplateName = ref('three-load-gltf');
@@ -57,7 +57,8 @@ let list:string[] = [
   'arc-curve',
   'tube-curve',
   'lathe-curve',
-  'dom-event'
+  'dom-event',
+  'earth'
 ];
 
 function onClick(val:string){
