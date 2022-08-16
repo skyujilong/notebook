@@ -26,7 +26,10 @@ onMounted(()=>{
     
     const material = new THREE.MeshPhysicalMaterial({
       // 地球的纹理图片映射进入材质。
-      map:texture
+      map:texture,
+      /// 追加法显贴图，展示立体面。
+      normalMap: textureLoader.load('./img/earth_nor.jpeg'),
+      normalScale: new THREE.Vector2(3, 3)
     });
     /// 材质与 几何图形想结合成mesh。 
     const mesh = new THREE.Mesh(ball,material);
