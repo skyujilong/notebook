@@ -109,9 +109,11 @@ onMounted(()=>{
 
 
     var mesh = new THREE.Mesh(geometry, material); //网格模型对象
-    mesh.morphTargetInfluences = [1]
+    // mesh.morphTargetInfluences = [1]
     scene.add(mesh); 
 
+
+    /// 动画方案更改 morphTargetInfluences 0 与 1 的值
     var Track1 = new THREE.KeyframeTrack(
       ".morphTargetInfluences[0]",
       [0, 10, 20],

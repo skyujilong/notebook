@@ -46,8 +46,9 @@ onMounted(()=>{
 
   loader.load('./higokumaru__honkai_impact_3rd/scene.gltf',(gltf)=>{
     console.log('gltf',gltf);
-    scene.add(gltf.scene);
-
+    const model = gltf.scene;
+    scene.add(model);
+    console.log('gltf animations:',gltf.animations);
     /// 环境光
 
     const light1 = new THREE.AmbientLight( 0x404040 ); // soft white light
