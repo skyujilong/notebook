@@ -23,6 +23,8 @@ import Morph from "./components/Bone/Morph.vue";
 import Animate from "./components/animate/Animate.vue";
 import GltfAnimate from "./components/animate/GltfAnimate.vue";
 import Point from "./components/demo/Point.vue";
+import PostProcessShader from "./components/demo/PostProcessShader.vue";
+
 import { ref,defineComponent,defineAsyncComponent } from "vue";
 const components = ref(new Map<string,any>());
 
@@ -47,6 +49,7 @@ components.value.set('morph',defineComponent(Morph));
 components.value.set('animate',defineComponent(Animate));
 components.value.set('gltf-animate',defineComponent(GltfAnimate));
 components.value.set('demo-point',defineComponent(Point));
+components.value.set('postprocess-shader',defineComponent(PostProcessShader));
 // components.value.set('three-1',()=> defineAsyncComponent(()=>import("./components/Three1.vue")));
 
 let showTemplateName = ref('three-load-gltf');
@@ -72,7 +75,8 @@ let list:string[] = [
   'morph',
   'animate',
   'gltf-animate',
-  'demo-point'
+  'demo-point',
+  'postprocess-shader'
 ];
 
 function onClick(val:string){
