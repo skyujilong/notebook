@@ -28,7 +28,7 @@ onMounted(()=>{
   light.position.y = 250;
   light.position.z = - 500;
   scene.add( light );
-
+  /// 顶点着色器。 下面的webgl 代码来绘制的顶点坐标
   const vertexShader = `
     varying vec3 vWorldPosition;
 
@@ -41,6 +41,7 @@ onMounted(()=>{
 
     }
   `;
+  /// 片断着色器
   const fragmentShader = `
     uniform vec3 topColor;
     uniform vec3 bottomColor;
@@ -84,6 +85,7 @@ onMounted(()=>{
   /// 加载模型
   const loader = new THREE.ObjectLoader();
   loader.load('./lightmap.json',(object)=>{
+    console.log(object);
     scene.add( object );
     renderer.render(scene,camera);
   });
