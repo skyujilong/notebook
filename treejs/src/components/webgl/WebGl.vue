@@ -70,20 +70,27 @@ const sceneEl = ref<HTMLDivElement>();
 // 顶点渲染器
 const vsSource = `
   attribute vec4 aVertexPosition;
+  attribute vec4 aVertexColor;
 
   uniform mat4 uModelViewMatrix;
   uniform mat4 uProjectionMatrix;
 
+  varying lowp vec4 vColor;
+
   void main() {
     gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+    vColor = aVertexColor;
   }
 `;
 
 // Fragment shader program
 // 片段着色器
 const fsSource = `
+
+  varying lowp vec4 vColor;
+
   void main() {
-    gl_FragColor = vec4(1.0, 1.0, 0.5, 1.0);
+    gl_FragColor = vColor;
   }
 `;
 
@@ -101,6 +108,7 @@ onMounted(()=>{
     attribLocations: {
       /// getAttribLocation 返回了给定WebGLProgram对象中某属性的下标指向位置。
       vertexPosition: gl!.getAttribLocation(shaderProgram!, 'aVertexPosition'),
+      vertexColor: gl!.getAttribLocation(shaderProgram!, 'aVertexColor')
     },
     uniformLocations: {
       /// uniform 是传递值的一种方式
@@ -185,6 +193,11 @@ function drawScene(gl:WebGLRenderingContext, programInfo:any, buffers:{
         programInfo.attribLocations.vertexPosition);
   }
 
+  /// 顶点颜色传入
+  gl.vertexAttribPointer(programInfo.attribLocations.vertexColor,4,gl.FLOAT,false,0,0);
+  gl.enableVertexAttribArray(
+        programInfo.attribLocations.vertexColor);
+
   // 正方形顶点颜色
 		// const colors = [
 		// 	1.0,  0.0,  0.0,  1.0,    // 红色
@@ -254,8 +267,25 @@ function initBuffers(gl:WebGLRenderingContext){
   console.log('positionBuffer',positionBuffer, gl.ARRAY_BUFFER);
   console.log('缓冲区大小',gl.getBufferParameter(gl.ARRAY_BUFFER, gl.BUFFER_SIZE));
   console.log('缓冲区使用',gl.getBufferParameter(gl.ARRAY_BUFFER, gl.BUFFER_USAGE));
+
+  /// 顶点颜色
+  const colorBuffer = gl.createBuffer();
+  const colors = [
+    1.0,  1.0,  1.0,  1.0,    // 白
+    1.0,  0.0,  0.0,  1.0,    // 红
+    0.0,  1.0,  0.0,  1.0,    // 绿
+    0.0,  0.0,  1.0,  1.0,    // 蓝
+  ];
+  /// 向colorBuffer缓冲区 填入颜色信息
+  gl.bindBuffer(WebGLRenderingContext.ARRAY_BUFFER, colorBuffer);
+  gl.bufferData(WebGLRenderingContext.ARRAY_BUFFER,
+    new Float32Array(colors),
+    WebGLRenderingContext.STATIC_DRAW
+  );
+
   return {
     position: positionBuffer,
+    color: colorBuffer
   };
 }
 
