@@ -9,6 +9,63 @@ import { mat4 } from "gl-matrix";
 
 const sceneEl = ref<HTMLDivElement>();
 
+
+/// 传递值给opengl 分析
+/**
+ * 
+ * 之前我们有定义openGl的执行代码部分。 如下：
+ * 
+ * const vsSource = `
+    attribute vec4 aVertexPosition;
+
+    uniform mat4 uModelViewMatrix;
+    uniform mat4 uProjectionMatrix;
+
+    void main() {
+      gl_Position = uProjectionMatrix * uModelViewMatrix * aVertexPosition;
+    }
+  `;
+ * 其中 有三句话如下：
+ * attribute vec4 aVertexPosition;
+ * uniform mat4 uModelViewMatrix;
+ * uniform mat4 uProjectionMatrix;
+ * 这三句都是声明了一个变量。 分别是类型vec4的aVertexPosition 
+ * 类型mat4的uModelViewMatrix,uProjectionMatrix
+ * js环境是如何传递值的。 看下面的代码。
+ * gl!.getAttribLocation(shaderProgram!, 'aVertexPosition')
+ * 通过该方法，我们其实是拿到了aVertexPosition变量对应的指针地址。 如果没有找到，返回的是-1。
+ * 通过如下方法开辟一个缓冲区
+ * const positionBuffer = gl.createBuffer();
+ * 之后通过gl.bindBuffer(gl.ARRAY_BUFFER,positionBuffer);
+ * 绑定缓冲区的对象【把positionBuffer绑定给当前的openGl运行环境上】。 注意这里， openGl的设计模式是状态机模式，所有的api基本上都是围绕着修改状态来设计的。 
+ * 之后通过gl.bufferData(target, size, usage)方法向缓冲区，写入数据。
+ * gl.bufferData(gl.ARRAY_BUFFER,
+                new Float32Array(positions),
+                gl.STATIC_DRAW);
+ * 通过bufferData方法，将positions 数组写入到缓冲区内。
+ * 之后的操作就是将该缓冲区与变量相结合赋值。
+ * const numComponents = 2;
+    const type = gl.FLOAT;
+    const normalize = false;
+    const stride = 0;
+    const offset = 0;
+    gl.vertexAttribPointer(
+        /// 将缓冲区的内容赋值到aVertexPosition 变量的指针上。
+        gl!.getAttribLocation(shaderProgram!, 'aVertexPosition')
+        numComponents, // 一个顶点用几个来描述， 1，2，3，4
+        type,
+        normalize,
+        stride,
+        offset);
+    /// 启用变量。
+    gl.enableVertexAttribArray(
+        programInfo.attribLocations.vertexPosition);
+ * 
+ * 
+ * 
+ */
+
+
 // Vertex shader program
 // 顶点渲染器
 const vsSource = `
@@ -116,7 +173,6 @@ function drawScene(gl:WebGLRenderingContext, programInfo:any, buffers:{
     const normalize = false;
     const stride = 0;
     const offset = 0;
-    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.position);
     gl.vertexAttribPointer(
         /// gl!.getAttribLocation(shaderProgram!, 'aVertexPosition')
         programInfo.attribLocations.vertexPosition, // 
